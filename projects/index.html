@@ -1,0 +1,96 @@
+<!doctype html>
+<script src="../js/jquery.js"></script>
+<script>
+  $(function(){
+    var includes = $('[data-include]');
+    jQuery.each(includes, function(){
+      var file = $(this).data('include') + '.html';
+      $(this).load(file);
+    });
+  });
+</script>
+
+<div data-include="../templates/head"></div>
+<body style="overflow: scroll;">
+<div class="container" style="margin-top: 30px;">
+<div class="jumbotron">
+  <h1>Projects</h1>
+  <p>These are all projects that I created mostly for fun with Python</p>
+  <p><a href="#demo" class="btn btn-primary btn-lg" role="button" data-toggle="collapse">Learn More</a></p>
+<div id="demo" class="collapse">
+<h4>I started coding when I was 12. I am best at python and I am mostly self taught.</h4>
+</div>
+</div>
+
+<div class="row">
+
+	<div class="col-xs-6 col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+        <h1><center>Pokemon Clone</center></h1>
+        <hr>
+        <h4>A clone of the pokemon games in pygame. Uses the <a href="https://pokeapi.co">Pokemon Api</a>.</h4>
+        <h4><a class="btn btn-primary" href="https://github.com/EthanLowenthal/pokemonclone">Github</a></h4>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-6 col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+        <h1><center>Turtle Doodle</center></h1>
+        <hr>
+        <h4>A program the draws out images using python's Turtle module.</h4>
+        <h4><a class="btn btn-primary" href="https://github.com/EthanLowenthal/Turtle-Doodle-EthanLowenthal">Github</a></h4>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xs-6 col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+        <h1><center>Userlogin</center></h1>
+        <hr>
+        <h4>A user management system in flask. Runs on Heroku (<a href="http://bit.ly/2mac6tM">http://bit.ly/2mac6tM</a>)</h4>
+        <h4><a class="btn btn-primary" href="https://github.com/EthanLowenthal/userlogin">Github</a>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-6 col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+        <h1><center>Javascript</center></h1>
+        <hr>
+        <h4>I was just messing around in Javascript. (uses p5.js)</h4>
+        <h4><button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Launch Program</button></h4>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div>
+<br>
+<br>
+<br>
+</body>
+<div data-include="../templates/foot"></div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+<div class="modal-header">
+Random Javascript Project
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+<br>
+      </div>
+<div class="modal-body" style="overflow:visible;">
+<iframe width="900" height="500" src="js.html" frameborder="0"></iframe>
+</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

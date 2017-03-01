@@ -1,0 +1,47 @@
+<style>
+body {
+    background: #002a33;
+    margin: 0px;
+    padding: 0px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/labtrak.css">
+<nav class="navbar navbar-default navbar-fixed-bottom">
+	<div class="container">
+
+		<p class="navbar-text copyright">&copy; Ethan Lowenthal 2017</p>
+
+		<ul class="nav navbar-nav">
+			<li><a href="../credits">Credits</a></li>
+			<li><a href="../contact">Contact Me</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="https://github.com/EthanLowenthal" target="_blank">GitHub</a></li>
+			<li><a href="https://www.facebook.com/ETHANMLOWENTHAL" target="_blank">Facebook</a></li>
+		</ul>
+	</div>
+</nav>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+  });
+</script>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			var $hero = $('#hero');
+			var $nav = $('nav');
+
+			var size = function() {
+				$hero.height( $(window).height() - ($nav.outerHeight()*2) );
+			};
+
+			$(window).on('resize', size).trigger('resize');
+		});
+	</script>
+</body>
