@@ -21,7 +21,7 @@
     <div class="panel-body">
 <a href="#demo" class="btn btn-info btn-lg" data-toggle="collapse">Send Me an Email</a>
 <div id="demo" class="collapse">
-<form name="htmlform" method="post" action="html_form_send.php">
+<form method="post" enctype="text/plain" action="mailto:someone@example.com">
 	<hr>
   <div class="input-group">
   <span class="input-group-addon" id="basic-addon1">First Name</span>
@@ -45,7 +45,7 @@
 <br>
 <div class="input-group">
   <span class="input-group-addon" id="basic-addon1">Comments</span>
-  <textarea type="text" class="form-control" placeholder="I like your website!" aria-describedby="basic-addon1" name="comments" maxlength="1000"></textarea>
+  <textarea type="text" class="form-control" placeholder="I like your website!" aria-describedby="basic-addon1" name="comment" maxlength="1000"></textarea>
 </div>
 <br>
   <input type="submit" value="Send Email" class="btn btn-default">
