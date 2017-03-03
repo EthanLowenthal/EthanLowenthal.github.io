@@ -11,7 +11,9 @@
 </script>
 
 <script>
-console.log(window.location.href);
+var url = window.location.href
+console.log(url.split("//").pop());
+console.log(url.split("//").pop().split("/").pop());
 </script>
 
 <div data-include="../templates/head"></div>
