@@ -31,6 +31,16 @@ body {
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../">Home</a>
+      <div id="path">
+    </div>
+    <script>
+    var url = window.location.href;
+    url = url.slice(0, -1);
+    console.log(url.split("//").pop());
+    console.log(url.split("/").pop());
+    document.getElementById("path").innerHTML =
+    "<span class=\"navbar-text\">/"+url+"</span>"
+    </script>
 		</div>
 
 		<div class="collapse navbar-collapse" id="nav-collapse">
