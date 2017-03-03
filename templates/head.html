@@ -36,8 +36,8 @@ body {
     <script>
     var url = window.location.href;
     url = url.slice(0, -1);
-    console.log(url.split("//").pop());
-    console.log(url.split("/").pop());
+    url = url.split("//").pop();
+    url = url.split("/").pop();
     document.getElementById("path").innerHTML =
     "<span class=\"navbar-text\">/"+url+"</span>"
     </script>
