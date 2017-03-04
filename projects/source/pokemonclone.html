@@ -1,0 +1,15 @@
+<script src="../js/jquery.js"></script>
+<script>
+  $(function(){
+    var includes = $('[data-include]');
+    jQuery.each(includes, function(){
+      var file = $(this).data('include') + '.html';
+      $(this).load(file);
+    });
+  });
+</script>
+
+
+
+<div data-include="../templates/head"></div>
+<div data-include="../templates/foot"></div>
