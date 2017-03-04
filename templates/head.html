@@ -37,15 +37,16 @@ body {
     url = url.split("//").pop();
     url = url.split("/").pop();
     document.getElementById("path").innerHTML =
-    "<p class=\"navbar-text\">/"+url+"</p>"
+            "<li><a href=\"#\">Home</a></li>"+
+            "<p class=\"navbar-text\">/"+url+"</p>"
     </script>
 		</div>
 
 		<div class="collapse navbar-collapse" id="nav-collapse">
 
 			<ul class="nav navbar-nav">
-        <li><div id="path">
-        <li></div>
+        <ul class="breadcrumb list-inline" id="path">
+        </ul>
 				<li><a href="../aboutme">About Me</a></li>
 				<li><a href="../projects">Projects</a></li>
 			</ul>
