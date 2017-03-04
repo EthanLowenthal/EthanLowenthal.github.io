@@ -37,9 +37,14 @@ body {
     var url = window.location.href;
     url = url.slice(0, -1);
     url = url.replace("http://ethansawesomewebsite.tk/","");
+    var pages = url.split("/");
+    var breadcrumb = "";
+    for (i = 0; i < pages.length; i++) {
+      bredcrumb += "<li><a href=\"#\">"+pages[i]+"</a></li>";
+    }
     document.getElementById("path").innerHTML =
             "<li><a href=\"#\">Home</a></li>"+
-            "<li><a href=\"#\">"+url+"</a></li>"
+            breadcrumb
     </script>
 		</div>
 
