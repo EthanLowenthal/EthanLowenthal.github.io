@@ -37,10 +37,10 @@ body {
     var url = window.location.href;
     url = url.slice(0, -1);
     url = url.replace("http://ethansawesomewebsite.tk/","");
-    var pages = url.split("/");
+    var pages = url.replace("#", "").split("/");
     var breadcrumb = "";
     for (i = 0; i < pages.length; i++) {
-      breadcrumb += "<li><a href=\"http://ethansawesomewebsite.tk/"+pages[i]+"\">"+pages[i].replace(".html", "")+"</a></li>";
+      breadcrumb += "<li><a href=\"http://ethansawesomewebsite.tk/"+pages[i]+"\">"+pages[i]+"</a></li>";
     }
     console.log(breadcrumb)
     document.getElementById("path").innerHTML =
