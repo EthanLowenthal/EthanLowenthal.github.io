@@ -12,9 +12,8 @@ body {
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="Content-Language" content="en">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<title>Ethan Lowenthal</title>
-
+    <div id="title">
+    </div>
 		<link rel="stylesheet" type="text/css" href="http://ethansawesomewebsite.tk/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="http://ethansawesomewebsite.tk/css/mycss.css">
 
@@ -48,6 +47,8 @@ body {
               "<li><a href=\"http://ethansawesomewebsite.tk/\">Home</a></li>"+
               breadcrumb
     }
+    document.getElementById("title").innerHTML =
+    "<title>"+pages[length(pages)]+" | Ethan Lowenthal</title>"
     console.log(breadcrumb)
     </script>
 		</div>
