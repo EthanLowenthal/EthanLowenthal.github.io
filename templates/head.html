@@ -40,7 +40,7 @@ body {
     var pages = url.split("/");
     var breadcrumb = "";
     for (i = 0; i < pages.length; i++) {
-      breadcrumb += "<li><a href=\"#\">"+pages[i]+"</a></li>";
+      breadcrumb += "<li><a href=\"#\">"+pages[i].replace(".html", "")+"</a></li>";
     }
     console.log(breadcrumb)
     document.getElementById("path").innerHTML =
