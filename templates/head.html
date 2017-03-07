@@ -35,8 +35,8 @@ body {
 			<a class="navbar-brand" href="http://ethansawesomewebsite.tk/">Home</a>
     <script>
     var url = window.location.href;
-    // url = url.slice(0, -1);
-    // url = url.replace("http://ethansawesomewebsite.tk/","");
+    url = url.slice(0, -1);
+    url = url.replace("http://ethansawesomewebsite.tk/","");
     var pages = url.replace("#", "").split("/");
     var breadcrumb = "";
     for (i = 0; i < pages.length; i++) {
