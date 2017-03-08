@@ -19,7 +19,9 @@
       <h3 class="panel-title">Contact Me</h3>
     </div>
     <div class="panel-body">
+<div id="buttondiv">
 <a href="#demo" class="btn btn-info btn-lg" data-toggle="collapse" onclick="togglebutton">Send Me an Email</a>
+</div>
 <div id="demo" class="collapse">
 <form method="post" enctype="text/plain" action="mailto:someone@example.com">
 	<hr>
@@ -64,7 +66,7 @@
 
 <script>
 function togglebutton() {
-    var x = document.getElementById('myDIV');
+    var x = document.getElementById('buttondiv');
     if (x.style.display === 'none') {
         x.style.display = 'block';
     } else {
