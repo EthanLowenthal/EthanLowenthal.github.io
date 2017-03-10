@@ -64,7 +64,10 @@ body {
 
 <script>
 $(document).ready(function () {
-  console.log($(window).width);
+  var size = function() {
+    $hero.width( $(window).width() - ($nav.outerHeight()*2) );
+  };
+  console.log(size)
     if ($(window).height > 1) {
         $(".navbar").removeClass("navbar-fixed-bottom");
         $(".navbar").addClass("navbar-bottom");
