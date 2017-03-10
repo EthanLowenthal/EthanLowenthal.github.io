@@ -11,7 +11,7 @@ body {
 
 <footer>
   <div id="navfoot">
-    <div class="navbar navbar-default navbar-fixed-bottom">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
     </div>
         <div class="container">
             <div class="navbar-collapse collapse" id="footer-body">
@@ -35,7 +35,7 @@ body {
             </div>
 
         </div>
-    </div>
+    </nav>
 </footer>
 
 
@@ -67,11 +67,11 @@ body {
 <script>
 $(document).ready(function () {
     if ($(document).height() > $(window).height()) {
-        document.getElementById("navfoot").innerHTML = "<div class=\"navbar navbar-default navbar-static-bottom\">"
+        document.getElementById("navfoot").innerHTML = "<nav class=\"navbar navbar-default navbar-static-bottom\">"
     }
-    
+
     else {
-      document.getElementById("navfoot").innerHTML = "<div class=\"navbar navbar-default navbar-fixed-bottom\">"
+      document.getElementById("navfoot").innerHTML = "<nav class=\"navbar navbar-default navbar-fixed-bottom\">"
     }
 });
 </script>
