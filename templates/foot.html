@@ -64,6 +64,11 @@ body {
 			$(window).on('resize', size).trigger('resize');
 		});
 	</script>
+  <script>
+  $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+  });
+  </script>
 </body>
 
 <script>
@@ -80,10 +85,5 @@ $(document).ready(function () {
     else {
         document.getElementById("navfoot").innerHTML = "<nav class=\"navbar navbar-default navbar-fixed-bottom\">"+navbar
     }
-});
-</script>
-<script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
