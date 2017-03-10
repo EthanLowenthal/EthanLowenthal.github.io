@@ -10,7 +10,9 @@ body {
 
 
 <footer>
+  <div id="navfoot">
     <div class="navbar navbar-default navbar-fixed-bottom">
+    </div>
         <div class="container">
             <div class="navbar-collapse collapse" id="footer-body">
               <p class="navbar-text copyright">&copy; Ethan Lowenthal 2017</p>
@@ -64,16 +66,16 @@ body {
 
 <script>
 $(document).ready(function () {
-  var size = function() {
-    $hero.width( $(window).width() - ($nav.outerHeight()*2) );
-  };
-  console.log(size)
-    if ($(window).height > 1) {
-        $(".navbar").removeClass("navbar-fixed-bottom");
-        $(".navbar").addClass("navbar-bottom");
+    if ($(document).height() > $(window).height()) {
+        document.getElementById("navfoot").innerHTML =
+        "
+        <div class=\"navbar navbar-default navbar-static-bottom\"\>
+        "
     } else {
-        $(".navbar").addClass("navbar-fixed-bottom");
-        $(".navbar").removeClass("navbar-bottom");
+      document.getElementById("navfoot").innerHTML =
+      "
+      <div class=\"navbar navbar-default navbar-fixed-bottom\"\>
+      "
     }
 });
 </script>
