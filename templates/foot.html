@@ -63,8 +63,9 @@ body {
 </body>
 
 <script>
+console.log($(window).height)
 $(document).ready(function () {
-    if ($(window).width > 70) {
+    if ($(window).height > 1) {
         $(".navbar").removeClass("navbar-fixed-bottom");
         $(".navbar").addClass("navbar-bottom");
     } else {
