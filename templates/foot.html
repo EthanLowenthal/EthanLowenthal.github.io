@@ -67,15 +67,11 @@ body {
 <script>
 $(document).ready(function () {
     if ($(document).height() > $(window).height()) {
-        document.getElementById("navfoot").innerHTML =
-        "
-        <div class=\"navbar navbar-default navbar-static-bottom\"\>
-        "
-    } else {
-      document.getElementById("navfoot").innerHTML =
-      "
-      <div class=\"navbar navbar-default navbar-fixed-bottom\"\>
-      "
+        document.getElementById("navfoot").innerHTML = "<div class=\"navbar navbar-default navbar-static-bottom\">"
+    }
+    
+    else {
+      document.getElementById("navfoot").innerHTML = "<div class=\"navbar navbar-default navbar-fixed-bottom\">"
     }
 });
 </script>
