@@ -4,14 +4,15 @@
   $(function(){
     var includes = $('[data-include]');
     jQuery.each(includes, function(){
-      var file = '../templates/' + $(this).data('include') + '.html';
+      var file = $(this).data('include') + '.html';
       $(this).load(file);
     });
   });
 </script>
 
 
-<div data-include="head"></div>
+
+<div data-include="../templates/head"></div>
 
 <div class="container" style="margin-top: 30px;">
   <div class="panel panel-default">
@@ -61,4 +62,4 @@
 
 
 
-<div data-include="foot"></div>
+<div data-include="../templates/foot"></div>
