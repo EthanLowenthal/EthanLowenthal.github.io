@@ -7,3 +7,21 @@
         margin: 7px 10px;
     }
 }
+
+
+.btnspecial {
+  -webkit-border-radius: 12;
+  -moz-border-radius: 12;
+  border-radius: 12px;
+  font-family: Arial;
+  color: #4f4f4f;
+  font-size: 20px;
+  padding: 10px;
+  border: solid #4f4f4f 2px;
+  text-decoration: none;
+}
+
+.btnspecial:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+}
