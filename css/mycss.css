@@ -41,6 +41,7 @@
   padding: 10px;
   border: solid #3cb0fd 2px;
   text-decoration: none;
+  transition: all 0.3s ease 0s;
 }
 
 .btnspecial-purple:hover {
