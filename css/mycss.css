@@ -21,7 +21,15 @@
   text-decoration: none;
 }
 
-.btnspecial:hover {
+.btnspecial-yellow:hover {
+  background: #ffe714;
+  text-decoration: none;
+}
+.btnspecial-green:hover {
+  background: ##00b706;
+  text-decoration: none;
+}
+.btnspecial-blue:hover {
   background: #3cb0fd;
   text-decoration: none;
 }
