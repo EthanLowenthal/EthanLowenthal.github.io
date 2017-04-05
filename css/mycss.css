@@ -19,6 +19,7 @@
   padding: 10px;
   border: solid #cf11ff 2px;
   text-decoration: none;
+  transition: all 0.3s ease 0s;
 }
 .btnspecial-green {
   -webkit-border-radius: 12;
@@ -30,6 +31,7 @@
   padding: 10px;
   border: solid #27b52c 2px;
   text-decoration: none;
+  transition: all 0.3s ease 0s;
 }
 .btnspecial-blue {
   -webkit-border-radius: 12;
@@ -41,7 +43,7 @@
   padding: 10px;
   border: solid #3cb0fd 2px;
   text-decoration: none;
-  transition: all 2s ease 2s;
+  transition: all 0.3s ease 0s;
 }
 
 .btnspecial-purple:hover {
