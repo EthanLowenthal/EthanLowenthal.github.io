@@ -14,10 +14,10 @@
   -moz-border-radius: 12;
   border-radius: 12px;
   font-family: Arial;
-  color: #4f4f4f;
+  color: #ffe714;
   font-size: 15px;
   padding: 10px;
-  border: solid #4f4f4f 2px;
+  border: solid #ffe714 2px;
   text-decoration: none;
 }
 .btnspecial-green {
@@ -25,10 +25,10 @@
   -moz-border-radius: 12;
   border-radius: 12px;
   font-family: Arial;
-  color: #4f4f4f;
+  color: #27b52c;
   font-size: 15px;
   padding: 10px;
-  border: solid #4f4f4f 2px;
+  border: solid #27b52c 2px;
   text-decoration: none;
 }
 .btnspecial-blue {
@@ -36,22 +36,25 @@
   -moz-border-radius: 12;
   border-radius: 12px;
   font-family: Arial;
-  color: #4f4f4f;
+  color: #3cb0fd;
   font-size: 15px;
   padding: 10px;
-  border: solid #4f4f4f 2px;
+  border: solid #3cb0fd 2px;
   text-decoration: none;
 }
 
 .btnspecial-yellow:hover {
+  border: solid #4f4f4f 2px;
   background: #ffe714;
   text-decoration: none;
 }
 .btnspecial-green:hover {
-  background: #008204;
+  border: solid #4f4f4f 2px;
+  background: #27b52c;
   text-decoration: none;
 }
 .btnspecial-blue:hover {
+  border: solid #4f4f4f 2px;
   background: #3cb0fd;
   text-decoration: none;
 }
