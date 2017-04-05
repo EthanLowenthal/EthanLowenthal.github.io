@@ -45,16 +45,19 @@
 
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
+  color: #ffffff;
   background: #cf11ff;
   text-decoration: none;
 }
 .btnspecial-green:hover {
   /*border: solid #4f4f4f 2px;*/
+  color: #ffffff;
   background: #27b52c;
   text-decoration: none;
 }
 .btnspecial-blue:hover {
   /*border: solid #4f4f4f 2px;*/
+  color: #ffffff;
   background: #3cb0fd;
   text-decoration: none;
 }
