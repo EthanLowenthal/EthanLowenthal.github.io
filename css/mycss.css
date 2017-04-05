@@ -9,15 +9,15 @@
 }
 
 
-.btnspecial-yellow {
+.btnspecial-purple {
   -webkit-border-radius: 12;
   -moz-border-radius: 12;
   border-radius: 12px;
   font-family: Arial;
-  color: #ffc321;
+  color: #cf11ff;
   font-size: 15px;
   padding: 10px;
-  border: solid #ffc321 2px;
+  border: solid #cf11ff 2px;
   text-decoration: none;
 }
 .btnspecial-green {
@@ -43,9 +43,9 @@
   text-decoration: none;
 }
 
-.btnspecial-yellow:hover {
+.btnspecial-purple:hover {
   border: solid #4f4f4f 2px;
-  background: #ffc321;
+  background: #cf11ff;
   text-decoration: none;
 }
 .btnspecial-green:hover {
