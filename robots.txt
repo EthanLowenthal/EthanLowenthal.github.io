@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /img/
+Disallow: /templates/
+Disallow: /js/
+Disallow: /css/
+Disallow: /.git/
+Sitemap: https://www.ethansawesomewebsite.tk/sitemap.xml
