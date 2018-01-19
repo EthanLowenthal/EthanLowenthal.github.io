@@ -1,13 +1,6 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9582325753224744",
-    enable_page_level_ads: true
-  });
-</script>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="Content-Language" content="en">
@@ -86,11 +79,8 @@
 									<li><a href="https://github.com/EthanLowenthal" target="_blank">GitHub</a></li>
 									<li><a href="https://www.facebook.com/ETHANMLOWENTHAL" target="_blank">Facebook</a></li>
 									<li class="nav-item dropdown">
-										<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Find me on...</a>
-										<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-											<img src="https://seeklogo.com/images/S/snapchat-logo-178D29F75B-seeklogo.com.png" hspace="20" alt="Snapchat" style="width:32px;height:32px;" data-toggle="tooltip" title="meep2378" href="https://www.snapchat.com/add/meep2378"">
-											<img src="https://instagram-brand.com/wp-content/themes/ig-branding/assets/images/ig-logo-email.png" data-toggle="tooltip" title="ethan.lowenthal" alt="Instagram" style="width:32px;height:32px;" href="https://www.instagram.com/ethanthelow/">
-											<img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/1259px-Twitter_bird_logo_2012.svg.png" href="https://twitter.com/ethanlowenthal" data-toggle="tooltip" title="ethanlowenthal" alt="Twitter" style="width:32px;height:32px;" href="https://twitter.com/MinecraftFail1">
+										<a onclick="loadSocailMedia()" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social Media</a>
+										<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="MediaMenu">
 										</div>
 									</li>
 								</ul>
@@ -132,5 +122,11 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
+<script type="text/javascript">
+function loadSocailMedia() {
+    document.getElementById("MediaMenu").innerHTML = "<img src=\"https://seeklogo.com/images/S/snapchat-logo-178D29F75B-seeklogo.com.png\" hspace=\"20\" alt=\"Snapchat\" style=\"width:32px;height:32px;\" data-toggle=\"tooltip\" title=\"meep2378\" href=\"https://www.snapchat.com/add/meep2378\"> <img src=\"https://instagram-brand.com/wp-content/themes/ig-branding/assets/images/ig-logo-email.png\" data-toggle=\"tooltip\" title=\"ethan.lowenthal\" alt=\"Instagram\" style=\"width:32px;height:32px;\" href=\"https://www.instagram.com/ethanthelow/\"><img src=\"https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/1259px-Twitter_bird_logo_2012.svg.png\" href=\"https://twitter.com/ethanlowenthal\" data-toggle=\"tooltip\" title=\"ethanlowenthal\" alt=\"Twitter\" style=\"width:32px;height:32px;\" href=\"https://twitter.com/MinecraftFail1\">";
+}
+</script>
+
 	</body>
 </html>
