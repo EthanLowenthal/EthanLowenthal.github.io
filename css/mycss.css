@@ -8,6 +8,9 @@
     }
 }
 
+#bgauto {
+  background-size: auto;
+}
 
 .btnspecial-purple {
   -webkit-border-radius: 12;
