@@ -220,6 +220,8 @@
 .btnspecial-blue:hover {
   /*border: solid #4f4f4f 2px;*/
   color: currentColor;
-  background: invert(currentColor);
+  background: currentColor;
   text-decoration: none;
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
 }
