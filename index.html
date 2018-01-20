@@ -169,39 +169,11 @@ function loadSocailMedia() {
 
 $('.carousel').carousel();
 </script>
+<script type="text/javascript" src="./js/rainbow.js"></script>
 <script type="text/javascript">
- function RGB2Color(r,g,b)
-  {
-    return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
-  }
-setInterval(function(){
-	var frequency = 1
-	var e = ['maintxt','quote','btn1','btn2','btn3','line','otherpages'];
-
-	for (var i = 0; i < e.length; i++) {
-    	var f = $('#'+e[i]).data('frequency');
-		f += 0.1
-		var maintxtred = Math.sin(f) * 127 + 128;
-		var maintxtgrn = Math.sin(f+2) * 127 + 128;
-		var maintxtblu = Math.sin(f+4) * 127 + 128;
-		document.getElementById(e[i]).style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-		if (e[i].indexOf('btn') !== -1) {
-		rgb_value = (Math.round(255 - maintxtred)).toString() + "," + (Math.round(255 - maintxtgrn)).toString()  + "," + (Math.round(255 - maintxtblu)).toString() 
-			if ($('#'+e[i]).is(":hover")){
-				$('#'+e[i]).css('backgroundColor', 'rgba(' + rgb_value.toString() + ', 1)');
-				$('#'+e[i]).css('borderColor', 'rgba(' + rgb_value.toString() + ', 1)');
-			}
-			else {
-				$('#'+e[i]).css('backgroundColor', 'rgba(' + rgb_value.toString() + ', 0.5)');
-				$('#'+e[i]).css('borderColor', RGB2Color(maintxtred, maintxtgrn, maintxtblu));
-			}
-		}
-		$('#'+e[i]).data('frequency',f);
-	}
-
-	$('#margin').css('margin-top',($(document).height()-200)/4.5);
-
-  }, 100)
+setInterval(function() { rainbow(['maintxt','quote','line','otherpages']) }, 100)
+setInterval(function() { rainbowbuttons(['btn1','btn2','btn3']) }, 100)
+setInterval(function(){$('#margin').css('margin-top',($(document).height()-200)/4.5);}, 100)
 
 </script>
 
