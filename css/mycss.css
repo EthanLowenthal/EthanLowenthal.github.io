@@ -207,7 +207,7 @@
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
   color: currentColor;
-  background: invert(100%);
+  background: invert(currentColor);
   text-decoration: none;
   /*filter: invert(100%);*/
 }
