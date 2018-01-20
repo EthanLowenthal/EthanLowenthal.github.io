@@ -152,13 +152,14 @@ setInterval(function(){
 	for (var i = 0; i < e.length; i++) {
     	var i = $('#'+e[i]).data('frequency');
     	console.log(i, e[i])
-		i += 0.1
-		var maintxtred = Math.sin(i) * 127 + 128;
-		var maintxtgrn = Math.sin(i+2) * 127 + 128;
-		var maintxtblu = Math.sin(i+4) * 127 + 128;
-		document.getElementById(e[i]).style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-		document.getElementById(e[i]).style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-		$('#'+e[i]).data('frequency',i);
+    	document.getElementById(e[i])
+		// i += 0.1
+		// var maintxtred = Math.sin(i) * 127 + 128;
+		// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+		// var maintxtblu = Math.sin(i+4) * 127 + 128;
+		// document.getElementById(e[i]).style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+		// document.getElementById(e[i]).style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+		// $('#'+e[i]).data('frequency',i);
 	}
 
 	// var i = $('#maintxt').data('frequency');
