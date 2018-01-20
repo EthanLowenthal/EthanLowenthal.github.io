@@ -141,23 +141,29 @@ document).ready(function(){
 	function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
+ function RGB2Color(r,g,b)
+  {
+    return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+  }
+    function byte2Hex(n)
+  {
+    var nybHexString = "0123456789ABCDEF";
+    return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+  }
 </script>
 <script type="text/javascript">
-	
-$(document).ready(setInterval(function(){
-	var center = 128;
-	var width = 127;
-	var len = 50;
+
+setInterval(document).ready(function(){
 	var phase1 = 0
 	var phase1 = 50
 	var phase1 = 75
 	var frequency = 1
 	var i = parseInt(getElementByXpath("//*[@id=\"hero\"]/div/div/div/h1").id)
 	i += 0.1
-	var maintxtred = Math.sin(frequency*i + phase1) * width + center;
-	var maintxtgrn = Math.sin(frequency*i + phase1) * width + center;
-	var maintxtblu = Math.sin(frequency*i + phase1) * width + center;
-   document.getElementById("maintxt-"+i).style.color = "(maintxtred, maintxtgrn, maintxtblu)";
+	var maintxtred = Math.sin(frequency*i + phase1);
+	var maintxtgrn = Math.sin(frequency*i + phase1);
+	var maintxtblu = Math.sin(frequency*i + phase1);
+   document.getElementById("maintxt-"+i).style.color = RGB2Color(maintxtred,maintxtgrn,maintxtblu);
    document.getElementById("maintxt-"+i).id = "maintxt-"+i
   }, 100))
 
