@@ -42,42 +42,42 @@
     }
 }
 .item:nth-child(1) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg0.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg0.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 .item:nth-child(2) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg1.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg1.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 .item:nth-child(3) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg2.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg2.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 .item:nth-child(4) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg3.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg3.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 .item:nth-child(5) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg4.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg4.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 }
 .item:nth-child(6) {
-    background: url(https://ethansawesomewebsite.tk/img/backgrounds/bg5.jpg) no-repeat center center fixed;
+    background: url(../img/backgrounds/bg5.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -114,6 +114,8 @@
   border: solid currentColor 2px;
   text-decoration: none;
   transition: all 0.3s ease 0s;
+  --color: 240, 240, 240;
+  --alpha: 0.5;
 }
 .btnspecial-green {
   -webkit-border-radius: 12;
@@ -143,7 +145,7 @@
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
   /*color: #ffffff;*/
-  background: rgba(var(--color), 0.5);
+  background-color: var(--color);
   /*mix-blend-mode: difference;*/
   text-decoration: none;
 }
