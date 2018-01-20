@@ -196,7 +196,7 @@
   -moz-border-radius: 12;
   border-radius: 12px;
   font-family: Arial;
-  color: #3cb0fd;
+  color: currentColor;
   font-size: 15px;
   padding: 10px;
   border: solid #3cb0fd 2px;
