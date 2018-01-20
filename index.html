@@ -57,7 +57,7 @@
 				        '<h3 id="quote" data-frequency="0.5" data-toggle="tooltip" title="This text is random. Try relaoding the page" style="margin-bottom:10px">' + quote + '</h3>';
 				    })();
 				  </script>
-				<h4>Check out my other pages:</h4>
+				<h4 id="otherpages" data-frequency="2.7">Check out my other pages:</h4>
 				<a id="btn1" data-frequency="0.3" href="https://ethansawesomewebsite.tk/aboutme" type="button" data-toggle="tooltip" title="Learn about me... or stalk me. Your choice." class="btnspecial-blue">About Me</a>
 				<a id="btn2" data-frequency="4.5" href="https://ethansawesomewebsite.tk/projects" type="button" data-toggle="tooltip" title="See all the cool things I made!" class="btnspecial-green">Projects</a>
 				<a id="btn3" data-frequency="5.2" href="https://ethansawesomewebsite.tk/contact" type="button" data-toggle="tooltip" title="Send me an email or something" class="btnspecial-purple">Contact Me</a>
@@ -189,6 +189,14 @@ setInterval(function(){
 	document.getElementById('btn3').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	document.getElementById('btn3').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#btn3').data('frequency',i);
+
+	var i = $('#otherpages').data('frequency');
+	i += 0.1
+	var maintxtred = Math.sin(i) * 127 + 128;
+	var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	var maintxtblu = Math.sin(i+4) * 127 + 128;
+	document.getElementById('otherpages').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	$('#otherpages').data('frequency',i);
 
 	var i = $('#line').data('frequency');
 	i += 0.1
