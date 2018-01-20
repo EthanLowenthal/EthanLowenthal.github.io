@@ -162,8 +162,8 @@ $(document).ready(function(){
 	var maintxtred = Math.sin(frequency*i + phase1);
 	var maintxtgrn = Math.sin(frequency*i + phase1);
 	var maintxtblu = Math.sin(frequency*i + phase1);
-   document.getElementById("maintxt-"+i).style.color = RGB2Color(maintxtred,maintxtgrn,maintxtblu);
-   document.getElementById("maintxt-"+i).id = "maintxt-"+i
+   document.getElementsByClassName("maintxt").style.color = RGB2Color(maintxtred,maintxtgrn,maintxtblu);
+   document.getElementsByClassName("maintxt").id = "maintxt-"+i
   }, 100)
 
 </script>
