@@ -150,9 +150,9 @@ setInterval(function(){
 	var i = $('#maintxt').data('frequency');
 	console.log(i)
 	i += 0.1
-	var maintxtred = Math.sin(i);
-	var maintxtgrn = Math.sin(i+2);
-	var maintxtblu = Math.sin(i+4);
+	var maintxtred = Math.sin(i) * 127 + 128;
+	var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	var maintxtblu = Math.sin(i+4) * 127 + 128;
 	document.getElementById('maintxt').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#maintxt').data('frequency',i);
   }, 100)
