@@ -46,7 +46,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            <h1 class="maintxt" id="maintxt-0">Ethan's Awesome Website</h1>
+            <h1 id="maintxt" data-frequency="0">Ethan's Awesome Website</h1>
             <hr style="height:5px;border:none;color:#333;background-color:#333;" />
 				<div id="quote"></div>
 				<script src="js/quotes.js"></script>
@@ -138,9 +138,6 @@ document).ready(function(){
 
 });</script>
 <script type="text/javascript">
-	function getElementByXpath(path) {
-  return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-}
  function RGB2Color(r,g,b)
   {
     return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
@@ -151,20 +148,20 @@ document).ready(function(){
     return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
   }
 </script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	var phase1 = 0
 	var phase1 = 50
 	var phase1 = 75
 	var frequency = 1
-	var i = parseInt(document.getElementsByClassName("maintxt").id)
+	var i = parseInt($('#maintxt').data('frequency'));
 	i += 0.1
 	var maintxtred = Math.sin(frequency*i + phase1);
 	var maintxtgrn = Math.sin(frequency*i + phase1);
 	var maintxtblu = Math.sin(frequency*i + phase1);
-   document.getElementsByClassName("maintxt").style.color = RGB2Color(maintxtred,maintxtgrn,maintxtblu);
-   document.getElementsByClassName("maintxt").id = "maintxt-"+i
-  }, 100)
+	$('#maintxt').data('frequency',i;
+  }
 
 </script>
 
