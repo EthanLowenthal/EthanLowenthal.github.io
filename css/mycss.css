@@ -47,19 +47,22 @@
 
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
-  color: #ffffff;
-  background: #cf11ff;
+  /*color: #ffffff;*/
+  background: currentColor;
+  mix-blend-mode: difference;
   text-decoration: none;
 }
 .btnspecial-green:hover {
   /*border: solid #4f4f4f 2px;*/
-  color: #ffffff;
-  background: #27b52c;
+  /*color: #ffffff;*/
+  background: currentColor;
+  mix-blend-mode: difference;
   text-decoration: none;
 }
 .btnspecial-blue:hover {
   /*border: solid #4f4f4f 2px;*/
-  color: #ffffff;
-  background: #3cb0fd;
+  /*color: #ffffff;*/
+  background: currentColor;
+  mix-blend-mode: difference;
   text-decoration: none;
 }
