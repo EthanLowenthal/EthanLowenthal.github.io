@@ -171,6 +171,11 @@ setInterval(function(){
 	document.getElementById('btn1').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	document.getElementById('btn1').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#btn1').data('frequency',i);
+	document.getElementById('btn1').hover(function(){
+        $(this).css("background-color", RGB2Color(maintxtred, maintxtgrn, maintxtblu));
+        }, function(){
+        $(this).css("background-color", "pink");
+    });
 
 	var i = $('#btn2').data('frequency');
 	i += 0.1
