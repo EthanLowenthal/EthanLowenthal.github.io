@@ -140,12 +140,7 @@ document).ready(function(){
 <script type="text/javascript">
  function RGB2Color(r,g,b)
   {
-    return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
-  }
-    function byte2Hex(n)
-  {
-    var nybHexString = "0123456789ABCDEF";
-    return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+    return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
   }
 </script>
 
@@ -158,6 +153,7 @@ setInterval(function(){
 	var maintxtred = Math.sin(i);
 	var maintxtgrn = Math.sin(i);
 	var maintxtblu = Math.sin(i);
+	document.findelementbyid('maintxt').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#maintxt').data('frequency',i);
   }, 500)
 
