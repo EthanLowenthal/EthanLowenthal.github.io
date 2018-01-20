@@ -147,64 +147,77 @@ document).ready(function(){
 <script type="text/javascript">
 setInterval(function(){
 	var frequency = 1
-	var i = $('#maintxt').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('maintxt').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#maintxt').data('frequency',i);
+	var e = ['maintxt','quote','btn1','btn2','btn3','line','otherpages'];
 
-	var i = $('#quote').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('quote').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#quote').data('frequency',i);
+	for (var i = 0; i < e.length; i++) {
+    	var i = $('#'+e[i]).data('frequency');
+		i += 0.1
+		var maintxtred = Math.sin(i) * 127 + 128;
+		var maintxtgrn = Math.sin(i+2) * 127 + 128;
+		var maintxtblu = Math.sin(i+4) * 127 + 128;
+		document.getElementById(e[i]).style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+		document.getElementById(e[i]).style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+		$('#'+e[i]).data('frequency',i);
+	}
 
-	var i = $('#btn1').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('btn1').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	document.getElementById('btn1').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#btn1').data('frequency',i);
+	// var i = $('#maintxt').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('maintxt').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#maintxt').data('frequency',i);
 
-	var i = $('#btn2').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('btn2').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	document.getElementById('btn2').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#btn2').data('frequency',i);
+	// var i = $('#quote').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('quote').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#quote').data('frequency',i);
 
-	var i = $('#btn3').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('btn3').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	document.getElementById('btn3').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#btn3').data('frequency',i);
+	// var i = $('#btn1').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('btn1').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// document.getElementById('btn1').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#btn1').data('frequency',i);
 
-	var i = $('#otherpages').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('otherpages').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#otherpages').data('frequency',i);
+	// var i = $('#btn2').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('btn2').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// document.getElementById('btn2').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#btn2').data('frequency',i);
 
-	var i = $('#line').data('frequency');
-	i += 0.1
-	var maintxtred = Math.sin(i) * 127 + 128;
-	var maintxtgrn = Math.sin(i+2) * 127 + 128;
-	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('line').style.backgroundColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
-	$('#line').data('frequency',i);
+	// var i = $('#btn3').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('btn3').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// document.getElementById('btn3').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#btn3').data('frequency',i);
+
+	// var i = $('#otherpages').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('otherpages').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#otherpages').data('frequency',i);
+
+	// var i = $('#line').data('frequency');
+	// i += 0.1
+	// var maintxtred = Math.sin(i) * 127 + 128;
+	// var maintxtgrn = Math.sin(i+2) * 127 + 128;
+	// var maintxtblu = Math.sin(i+4) * 127 + 128;
+	// document.getElementById('line').style.backgroundColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	// $('#line').data('frequency',i);
   }, 100)
 
 </script>
