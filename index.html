@@ -192,7 +192,7 @@ setInterval(function(){
 	var maintxtred = Math.sin(i) * 127 + 128;
 	var maintxtgrn = Math.sin(i+2) * 127 + 128;
 	var maintxtblu = Math.sin(i+4) * 127 + 128;
-	document.getElementById('line').style.background-color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	document.getElementById('line').style.backgroundColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#line').data('frequency',i);
   }, 100)
 
