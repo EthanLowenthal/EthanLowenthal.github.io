@@ -176,6 +176,19 @@ function loadSocailMedia() {
 $('.carousel').carousel();
 </script>
 <script type="text/javascript">
+var $numberofSlides = $('.item').length;
+var $currentSlide = Math.floor((Math.random() * $numberofSlides));
+
+$('.carousel-indicators li').each(function(){
+  var $slideValue = $(this).attr('data-slide-to');
+  if($currentSlide == $slideValue) {
+    $(this).addClass('active');
+    $item.eq($slideValue).addClass('active');
+  } else {
+    $(this).removeClass('active');
+    $item.eq($slideValue).removeClass('active');
+  }
+});
  function RGB2Color(r,g,b)
   {
     return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
