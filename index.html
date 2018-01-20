@@ -151,15 +151,13 @@ document).ready(function(){
 
 <script type="text/javascript">
 setInterval(function(){
-	var phase1 = 0
-	var phase1 = 50
-	var phase1 = 75
 	var frequency = 1
 	var i = parseInt($('#maintxt').data('frequency'));
+	console.log(i)
 	i += 0.1
-	var maintxtred = Math.sin(frequency*i + phase1);
-	var maintxtgrn = Math.sin(frequency*i + phase1);
-	var maintxtblu = Math.sin(frequency*i + phase1);
+	var maintxtred = Math.sin(i);
+	var maintxtgrn = Math.sin(i);
+	var maintxtblu = Math.sin(i);
 	$('#maintxt').data('frequency',i);
   }, 6000)
 
