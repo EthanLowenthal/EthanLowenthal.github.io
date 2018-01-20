@@ -206,9 +206,10 @@
 
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
-  color: #ffffff;
-  background: #cf11ff;
+  color: currentColor;
+  background: invert(100%);
   text-decoration: none;
+  /*filter: invert(100%);*/
 }
 .btnspecial-green:hover {
   /*border: solid #4f4f4f 2px;*/
