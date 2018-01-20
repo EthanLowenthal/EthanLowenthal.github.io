@@ -55,7 +55,7 @@
 .btnspecial-green:hover {
   /*border: solid #4f4f4f 2px;*/
   /*color: #ffffff;*/
-  background: (255-currentColor[0], 255-currentColor[1], 255-currentColor[2]);
+  background: currentColor;
   /*mix-blend-mode: difference;*/
   text-decoration: none;
 }
