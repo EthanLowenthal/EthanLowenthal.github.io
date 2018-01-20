@@ -169,6 +169,7 @@ setInterval(function(){
 	var maintxtgrn = Math.sin(i+2) * 127 + 128;
 	var maintxtblu = Math.sin(i+4) * 127 + 128;
 	document.getElementById('btn1').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	document.getElementById('btn1').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#btn1').data('frequency',i);
 
 	var i = $('#btn2').data('frequency');
@@ -177,6 +178,7 @@ setInterval(function(){
 	var maintxtgrn = Math.sin(i+2) * 127 + 128;
 	var maintxtblu = Math.sin(i+4) * 127 + 128;
 	document.getElementById('btn2').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	document.getElementById('btn2').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#btn2').data('frequency',i);
 
 	var i = $('#btn3').data('frequency');
@@ -185,6 +187,7 @@ setInterval(function(){
 	var maintxtgrn = Math.sin(i+2) * 127 + 128;
 	var maintxtblu = Math.sin(i+4) * 127 + 128;
 	document.getElementById('btn3').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
+	document.getElementById('btn3').style.borderColor = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#btn3').data('frequency',i);
 
 	var i = $('#line').data('frequency');
