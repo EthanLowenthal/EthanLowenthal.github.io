@@ -199,7 +199,7 @@
   color: currentColor;
   font-size: 15px;
   padding: 10px;
-  border: solid #3cb0fd 2px;
+  border: solid #currentColor 2px;
   text-decoration: none;
   transition: all 0.3s ease 0s;
 }
