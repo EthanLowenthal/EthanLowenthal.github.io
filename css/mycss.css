@@ -143,7 +143,7 @@
 .btnspecial-purple:hover {
   /*border: solid #4f4f4f 2px;*/
   /*color: #ffffff;*/
-  background: currentColor;
+  background: rgba(var(--color), 0.5);
   /*mix-blend-mode: difference;*/
   text-decoration: none;
 }
