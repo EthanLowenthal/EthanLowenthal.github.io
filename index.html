@@ -151,8 +151,8 @@ setInterval(function(){
 	console.log(i)
 	i += 0.1
 	var maintxtred = Math.sin(i);
-	var maintxtgrn = Math.sin(i);
-	var maintxtblu = Math.sin(i);
+	var maintxtgrn = Math.sin(i+2);
+	var maintxtblu = Math.sin(i+4);
 	document.getElementById('maintxt').style.color = RGB2Color(maintxtred, maintxtgrn, maintxtblu);
 	$('#maintxt').data('frequency',i);
   }, 100)
