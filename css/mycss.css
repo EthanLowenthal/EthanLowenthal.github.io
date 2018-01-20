@@ -213,12 +213,13 @@
 .btnspecial-green:hover {
   /*border: solid #4f4f4f 2px;*/
   color: currentColor;
-  background: invert(currentColor);
+  background: currentColor;
   text-decoration: none;
+  filter: invert(100%);
 }
 .btnspecial-blue:hover {
   /*border: solid #4f4f4f 2px;*/
-  color: #ffffff;
-  background: #3cb0fd;
+  color: currentColor;
+  background: invert(currentColor);
   text-decoration: none;
 }
