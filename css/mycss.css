@@ -103,6 +103,10 @@
     }
 }
 
+div#margin { 
+    height:2.2in; 
+}
+
 .btnspecial-purple {
   -webkit-border-radius: 12;
   -moz-border-radius: 12;

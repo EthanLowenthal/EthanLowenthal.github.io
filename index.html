@@ -77,7 +77,7 @@
 
 
 <body style="background-size: cover; background-repeat: no-repeat;">
-    <div id="hero" style="margin-top:2.2in">
+    <div id="margin">
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
@@ -166,16 +166,7 @@ function loadSocailMedia() {
 }
 </script>
 <script type="text/javascript">
-//$(
-// document).ready(function(){
-//     var classCycle=['/img/backgrounds/bg0.jpg','/img/backgrounds/bg1.jpg','/img/backgrounds/bg2.jpg','/img/backgrounds/bg3.jpg','/img/backgrounds/bg4.jpg','/img/backgrounds/bg5.jpg'];
 
-//     var randomNumber = Math.floor(Math.random() * classCycle.length);
-//     var classToAdd = classCycle[randomNumber];
-
-//     document.body.style.backgroundImage = "url("+classToAdd+")";
-
-// });
 $('.carousel').carousel();
 </script>
 <script type="text/javascript">
@@ -183,8 +174,6 @@ $('.carousel').carousel();
   {
     return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
   }
-</script>
-<script type="text/javascript">
 setInterval(function(){
 	var frequency = 1
 	var e = ['maintxt','quote','btn1','btn2','btn3','line','otherpages'];
@@ -209,6 +198,9 @@ setInterval(function(){
 		}
 		$('#'+e[i]).data('frequency',f);
 	}
+
+	$('#margin').css('margin-top',($(document).height()-100)/4.5);
+
   }, 100)
 
 </script>
