@@ -157,7 +157,7 @@ $(document).ready(setInterval(function(){
 	var maintxtred = Math.sin(frequency*i + phase1) * width + center;
 	var maintxtgrn = Math.sin(frequency*i + phase1) * width + center;
 	var maintxtblu = Math.sin(frequency*i + phase1) * width + center;
-   document.getElementById("maintxt-"+i).style.color = (maintxtred, maintxtgrn, maintxtblu);
+   document.getElementById("maintxt-"+i).style.color = "(maintxtred, maintxtgrn, maintxtblu)";
    document.getElementById("maintxt-"+i).id = "maintxt-"+i
   }, 100))
 
