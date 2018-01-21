@@ -19,7 +19,7 @@
       <h3 class="panel-title">Contact Me</h3>
     </div>
     <div class="panel-body">
-<a id="buttondiv" href="#demo" class="btn btn-warning btn-lg" data-toggle="collapse">Send Me an Email</a>
+<a style="border-color: currentColor;" id="btn0" data-frequency="3.5" href="#demo" class="btn btn-warning btn-lg" data-toggle="collapse">Send Me an Email</a>
 
 <div id="demo" class="collapse">
 <form method="post" enctype="text/plain" action="mailto:ethanmlowenthal@gmail.com">
@@ -49,7 +49,7 @@
   <textarea type="text" class="form-control" placeholder="I like your website!" aria-describedby="basic-addon1" name="comment" maxlength="1000" required></textarea>
 </div>
 
-  <input type="submit" value="Send Email" class="btn btn-default">
+  <input style="border-color: currentColor;" id="btn1" data-frequency="3.1" type="submit" value="Send Email" class="btn btn-default">
 
 </form>
 </div>
@@ -58,6 +58,12 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript" src="../js/rainbow.js"></script>
+<script type="text/javascript">
+  setInterval(function() { rainbowbuttons(['btn0'], o=1, b=false) }, 100)
+  setInterval(function() { rainbowbuttons(['btn1']) }, 100)
+</script>
 
 
 

@@ -4,7 +4,6 @@ function RGB2Color(r,g,b)
   }
 
 function rainbow(e){
-	var frequency = 1
 	var e = e
 
 	for (var i = 0; i < e.length; i++) {
@@ -20,7 +19,6 @@ function rainbow(e){
 
   function rainbowbuttons(e, o=0.5, b=true){
 
-var frequency = 1
 	var e = e
 
 	for (var i = 0; i < e.length; i++) {
@@ -34,12 +32,12 @@ var frequency = 1
 		if ($('#'+e[i]).is(":hover")){
 			$('#'+e[i]).css('backgroundColor', 'rgba(' + rgb_value.toString() + ', 1)');
 			$('#'+e[i]).css('borderColor', 'rgba(' + rgb_value.toString() + ', 1)');
+			f += 1.1
 		}
 		else {
 			$('#'+e[i]).css('backgroundColor', 'rgba(' + rgb_value.toString() + ', '+o.toString()+')');
 			if (b) {$('#'+e[i]).css('borderColor', RGB2Color(maintxtred, maintxtgrn, maintxtblu));}
-			else {$('#'+e[i]).css('borderColor', 'rgba(' + rgb_value.toString() + ', 1)');
-}
+			else {$('#'+e[i]).css('borderColor', 'rgba(' + rgb_value.toString() + ', 1)');}
 		}
 		$('#'+e[i]).data('frequency',f);
 	}
@@ -47,7 +45,7 @@ var frequency = 1
 
 
 function rainbowprogressbar(e){
-var frequency = 1
+
 	var e = e
 
 	for (var i = 0; i < e.length; i++) {
