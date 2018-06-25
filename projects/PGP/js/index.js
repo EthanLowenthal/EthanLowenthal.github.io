@@ -1,1 +1,0 @@
-(function(){$(function(){return $(document).foundation(),$("a.smooth").on("click",function(t){var n,o;return t.preventDefault(),o=this.hash,n=$(o),$("html, body").stop().animate({scrollTop:n.offset().top-80},1e3,"swing")})})}).call(this);
