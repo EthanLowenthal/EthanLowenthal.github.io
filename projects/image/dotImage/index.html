@@ -26,16 +26,30 @@
 
 	</div>
 
-	<div class="card">
-     <div class="card-body bg-light">
-     	<label for="colorBG" id="colorBGLabel" style="background: #FF0000" class="btn btn-transparent">Background Color</label>
-        	<input id="colorBG" style="opacity:0;" onchange="changeColor(this, 'colorBGLabel');" value="#FF0000" type="color">
+  <div style="display: none;" id="noFile" class="invalid-feedback">Enter an image!</div>
 
-        	<label for="colorDot" id="colorLabel" style="background: #FF0000" class="btn btn-transparent">Dot Color</label>
+<hr>
+        	
+
+          <label for="colorBG" class="btn btn-light">
+          <svg width="24" height="24">
+            <rect id="colorBGLabel" x="1" y="1" rx="3" ry="3" width="20" height="20" style="fill:#FF0000;stroke:black" />
+          </svg>
+          Background Color
+        </label>
+
+        	<label for="colorDot" class="btn btn-light">
+          <svg width="24" height="24">
+            <rect id="colorLabel" x="1" y="1" rx="3" ry="3" width="20" height="20" style="fill:#FF0000;stroke:black" />
+          </svg>
+          Dot Color
+        </label>
+
+                  <input id="colorBG" style="opacity:0;" onchange="changeColor(this, 'colorBGLabel');" value="#FF0000" type="color">
+
         	<input id="colorDot" type="color" style="opacity:0;" onchange="changeColor(this, 'colorLabel');" value="#0000FF">
-     </div>
-</div>
-<br>
+
+<hr>
 <button class="btn btn-primary btn-lg btn-block" onclick="handleFiles(document.getElementById('input').files)">Go!</button>
 
 <br>
@@ -90,9 +104,9 @@
 
 	function changeColor(elm, label) {
 		l = document.getElementById(label);
-		l.style.backgroundColor = elm.value;
-		l.style.color = invertColor(elm.value);
-		l.style.borderColor = invertColor(elm.value);
+		l.style.fill = elm.value;
+		// l.style.color = invertColor(elm.value);
+		// l.style.borderColor = invertColor(elm.value);
 	}
 
 	changeColor(document.getElementById('colorBG'), 'colorBGLabel')
@@ -116,6 +130,13 @@
    	
 
    	var file = document.getElementById('input').files[0];
+    if (file == undefined) {
+      $("#input").addClass("is-invalid");
+      $('#noFile').show();
+      return
+    }
+    $('#noFile').hide();
+    $("#input").removeClass("is-invalid");
    	// if (!file.type.startsWith('image/')){ continue }
    
    	var img = document.createElement("img");
