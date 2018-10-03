@@ -80,9 +80,9 @@ function draw() {
       }
     }
   }
-  fill(rSlider.value(),gSlider.value(),bSlider.value())
+  fill(rSlider.value(),gSlider.value(),bSlider.value());
   ellipse(x, y, 60, 60);
-  fill(0,0,0)
+  fill(0,0,0);
   if (bgrSlider.value() < 80){
     if (bggSlider.value() < 80){
       if (bgbSlider.value() < 80){
