@@ -1,192 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta http-equiv="Content-Language" content="en">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<title>Home | Ethan Lowenthal</title>
-
-    <style type="text/css">
-    	body { overflow: hidden; }
-    	.navbar { margin-bottom: 0; }
-    </style>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113649034-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-113649034-1');
-</script>
-
-	</head>
-
-	<div id="bgimages" class="carousel slide carousel-fade" data-ride="carousel">
-<ol class="carousel-indicators">
-    <li data-target="#bgimages" data-slide-to="0" class="active"></li>
-    <li data-target="#bgimages" data-slide-to="1"></li>
-    <li data-target="#bgimages" data-slide-to="2"></li>
-    <li data-target="#bgimages" data-slide-to="3"></li>
-    <li data-target="#bgimages" data-slide-to="4"></li>
-    <li data-target="#bgimages" data-slide-to="5"></li>
-  </ol>
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-        </div>
-        <div class="item">
-        </div>
-        <div class="item">
-        </div>
-		<div class="item">
-        </div>
-		<div class="item">
-        </div>
-        <div class="item">
-        </div>
-    </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-
-
-    <nav class="navbar navbar-inverse navbar-static-top">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="./">Home</a>
-		</div>
-
-		<div class="collapse navbar-collapse" id="nav-collapse">
-
-			<ul class="nav navbar-nav">
-				<li><a href="./aboutme">About Me</a></li>
-				<li><a href="./projects">Projects</a></li>
-				<!-- <li><a href="#">Pages</a></li> -->
-			</ul>
-
-
-		</div>
-
-	</div>
-</nav>
-
-
-<body style="background-size: cover; background-repeat: no-repeat;">
-    <div id="margin">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h1 id="maintxt" data-frequency="0" style="background-">Ethan's Awesome Website</h1>
-            <hr id="line" data-frequency="4.8" style="height:5px;border:none;color:#333;background-color:currentColor;" />
-				<div id="quoteoutline"></div>
-				<script src="js/quotes.js"></script>
-				  <script>
-				  var quote = quotes[Math.floor(Math.random() * quotes.length)];
-				      document.getElementById("quoteoutline").innerHTML =
-				        '<h3 id="quote" data-frequency="0.5" data-toggle="tooltip" title="This text is random. Try relaoding the page" style="margin-bottom:10px">' + quote + '</h3>';
-				    setInterval(function(){
-				      var quote = quotes[Math.floor(Math.random() * quotes.length)];
-				      document.getElementById("quoteoutline").innerHTML =
-				        '<h3 id="quote" data-frequency="0.5" data-toggle="tooltip" title="This text is random. Try relaoding the page" style="margin-bottom:10px">' + quote + '</h3>';
-				    }, 7000)	
-				  </script>
-				<h4 id="otherpages" data-frequency="2.7">Check out my other pages:</h4>
-				<a style="border-color: currentColor;" id="btn1" data-frequency="0.3" href="./aboutme" type="button" data-toggle="tooltip" title="Learn about me... or stalk me. Your choice." class="btnspecial-blue">About Me</a>
-				<a style="border-color: currentColor;" id="btn2" data-frequency="4.5" href="./projects" type="button" data-toggle="tooltip" title="See all the cool things I made!" class="btnspecial-green">Projects</a>
-				<a style="border-color: currentColor;" id="btn3" data-frequency="5.2" href="./contact" type="button" data-toggle="tooltip" title="Send me an email or something" class="btnspecial-purple">Contact Me</a>
-				</div>
-        </div>
-      </div>
-    </div>
-</body>
-<footer>
-		<div class="navbar navbar-default navbar-fixed-bottom">
-				<div class="container">
-						<div class="navbar-collapse collapse" id="footer-body">
-							<p class="navbar-text copyright">&copy; Ethan Lowenthal 2017</p>
-								<ul class="nav navbar-nav">
-									<li><a href="./credits">Credits</a></li>
-									<li><a href="./contact">Contact Me</a></li>
-								</ul>
-								<ul class="nav navbar-nav navbar-right">
-									<li><a href="https://github.com/EthanLowenthal" target="_blank">GitHub</a></li>
-									<li><a href="https://www.facebook.com/ETHANMLOWENTHAL" target="_blank">Facebook</a></li>
-									<li class="nav-item dropdown">
-										<a onclick="loadSocailMedia()" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social Media</a>
-										<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="MediaMenu">
-										</div>
-									</li>
-								</ul>
-						</div>
-						<div class="navbar-header">
-								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#footer-body">
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-								</button>
-						</div>
-
-				</div>
-		</div>
-</footer>
-
-<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/mycss.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-    	$(document).ready(function() {
-
-    		var $hero = $('#hero');
-    		var $nav = $('nav');
-
-    		var size = function() {
-    			$hero.height( $(window).height() - ($nav.outerHeight()*2) );
-    		};
-
-    		$(window).on('resize', size).trigger('resize');
-    	});
-    </script>
-<script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
-<script type="text/javascript">
-function loadSocailMedia() {
-    document.getElementById("MediaMenu").innerHTML = "<img src=\"https://seeklogo.com/images/S/snapchat-logo-178D29F75B-seeklogo.com.png\" hspace=\"20\" alt=\"Snapchat\" style=\"width:32px;height:32px;\" data-toggle=\"tooltip\" title=\"meep2378\" href=\"https://www.snapchat.com/add/meep2378\"> <img src=\"https://instagram-brand.com/wp-content/themes/ig-branding/assets/images/ig-logo-email.png\" data-toggle=\"tooltip\" title=\"ethanthelow\" alt=\"Instagram\" style=\"width:32px;height:32px;\" href=\"https://www.instagram.com/ethanthelow/\"><img src=\"https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/1259px-Twitter_bird_logo_2012.svg.png\" href=\"https://twitter.com/ethanlowenthal\" data-toggle=\"tooltip\" title=\"ethanlowenthal\" alt=\"Twitter\" style=\"width:32px;height:32px;\" href=\"https://twitter.com/MinecraftFail1\">";
-}
-</script>
-<script type="text/javascript">
-
-$('.carousel').carousel();
-</script>
-<script type="text/javascript" src="./js/rainbow.js"></script>
-<script type="text/javascript">
-setInterval(function() { rainbow(['maintxt','quote','line','otherpages']) }, 100)
-setInterval(function() { rainbowbuttons(['btn1','btn2','btn3']) }, 100)
-setInterval(function(){$('#margin').css('margin-top',($(document).height()-200)/4.5);}, 100)
-
-</script>
-<script src="https://june11.battleforthenet.com/widget.js" async></script>
-
-
+<!--?D]MM?MD?]M]DD]MMMM]M]MDD]]D]DM?DD?]MMDD]D]MM]M]]]M]MMMD]MDMM]=DD?MD]D?]DM?M
+?MD]?D]MM?MD?]+]DM]D]MM]M]MDD]?D?D]?DD?]M]DM]D]MM]M]]]D]MM]D]MD]M]?MD?MD?D?]DM?M
+?MD]?D?MM?MD?]D?DM]M]MM]M]]DD]]D?M]?MD?]M]DM]M]MM]MM]]D]]M]M]MD+M]?MM?MM?D?]DM?D
+?MD]?D?]M?MD?]D?D7]M]M]]M]]MD?]D?M]?MM?]D?M]]M]M]]MM]]D]]M]M]]D]D]?MM?]M?D??DM?D
+?MD]?M?]]?MD?]D?M]$M]M]]MM?MD?]M?M??MM?]D?D]]M?M]]MM]]D]]M?M=]M?D]?MM]]M?M]?DM]M
+?DNDDDDDD]ND]MD]DMMN?DD].:$..?. ?.]]..]M.].I].].7M. M..]]D]MM]DMDM]NN]MDMDDMNDMD
+]MDM]]DM]]DM]]]MM]]DM]D..        . ...... . ... .      .M=]DM]MDM]MDD]]]M]]MDD]]
+?MM]?]MM?]MM]?]MM?]M]M7..                              ..]]MM?]MM]]MDM??M]?]MM]]
+?MM]?]MM?]MM]?]M]?MMMD.                                  D]]M]]MM]]MDM??M]?]MM]]
+?MM]?MM]?]MM]?]M]]MMD..                                  .DMM]?]M]]MDM??]]?]MM]]
+]MM]?MM]?MM]??MM?MMM                                      .DMM?]MM?]MM]?]M?]MD]]
+]DM?]M]?]MM]?]M?]MD.                                        DMM?]M??MM]??M]?MD]]
+]D]?MM]?]M]?]M]]MD.                                         .DM]?M]?]MM]?]]?]D]]
+]D]]M]?]MM??M]]MD.                                            DM]]M]?MM]?]M]]D]]
+MM?M]?]MM]?M]]MN                                               ~D]]M??MM]?]M?MM]
+D]]M]]MD]?M]]M:       you like the page                         .D]]M??MM]?]]]D]
+D]M]]MM]]M?]D .          you think it's slick                    .NM?M]?MM]]M]M]
+]]]]MD]]M]M$                you want to know                       .D]MM?MM]]M]]
+]M]]D]M]]D. .                  what makes it tick                    N]]M?DM]]?]
+]]]D]M]D                                                             ..D]M]MM]]]
+]]D]MM..                                                              .. MMMD]]]
+DM]M~.                            so you've arrived                     ..~M]MDD
+MDDD.                                from parts uncertain                  DDDM]
+]MMM.                                   to take a peek                    .MDM]]
+]]]M.                                      behind the curtain             .MMM]]
+]]MMI                                                                     =M]]]]
+]?MD].                                                                    ]MM]]]
+]]DM].                                                                  . ]DD]]]
+]]DMMM                                                                   M]MD]]]
+]]MMD]..                                                                .]MMD]]]
+]]]MM]~.                                                                .]MM]]]]
+]]]DM]].===============================================================.]]MD]]]]
+]]]DMM].                                                                ]MMD]]]]
+]]]MMM]]                                                              .:]MMD]]]]
+]]]MMM]]                                                               M]MMM]]]]
+]]]MMM]].                                                             .]]MMM]]]]
+]]]]MM]].                                                              ]]MMM]]]]
+================================================================WelcomeMat.co-->
+<head>
+ <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>Ethan's Awesone Website</title>
+</head>
+    <body>
+          <div id="root"></div>
+    <script type="text/javascript" src="main.js"></script></body>
 </html>
