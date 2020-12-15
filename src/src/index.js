@@ -96,7 +96,7 @@ I am always looking for new opportunities to learn and work on cool projects.",
         <>
           {
             "I did machining and managed the shop for the Gunn Robotics Team.\
-I am fluent in Python, Javascript, and GLSL. I desigend a etched my own PCBs for a hat that plays music.\
+I am fluent in Python, Javascript, and GLSL. I designed and etched my own PCBs for a hat that plays music.\
 One of my most notable shaders (program the run on the GPU) is a "
           }
           <a
