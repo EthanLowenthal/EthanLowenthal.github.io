@@ -1,78 +1,106 @@
-html, body {
-	height: 100%;
-}
-
+html,
 body {
-	overflow: hidden;
-	position: relative;
-	background: rgb(21, 22, 22);
-	font-size: 15px;
+  user-select: none;
+  height: 100%;
+  margin: 0;
 }
 
+#root {
+  z-index: 100;
+  overflow: hidden;
+  position: absolute;
+  pointer-events: none;
+  font-size: 15px;
+}
+#background {
+  background: rgb(21, 22, 22);
+  width: 100vw;
+  height: 100vh;
+  z-index: -100;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.selected::before {
+  content: "-";
+}
 pre {
-	color: rgb(215, 227, 228);
-	white-space: pre-wrap;
+  color: rgb(215, 227, 228);
+  white-space: pre-wrap;
 }
 
 .disclaimer {
-	position: relative;
-	margin-left: calc(100% - 7em);
-	bottom: 5em;
-	opacity: 0.2;
+  position: relative;
+  margin-left: calc(100% - 7em);
+  bottom: 5em;
+  opacity: 0.2;
 }
 
 .text-container {
-	margin-top: -3em;
-	padding-left: 2em;
-
+  margin-top: -3em;
+  padding-left: 2em;
 }
 
 .image-container {
-	width: 100%;
+  width: 100%;
 }
 
 .border {
-	border-style: solid;
-	border-width: 1px;
-	border-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
 }
 
 .row {
-	margin-top: 3em;
-    display: table;
-    height: 100%;
-    width: 100%;
-    table-layout: fixed;
+  margin-top: 3em;
+  display: table;
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .column {
-    display: table-cell;
+  display: table-cell;
 }
 
-.column-text  {
-	overflow: auto;
-	display: table-cell;
-	width: 40%;
+.column-text {
+  overflow: auto;
+  display: table-cell;
+  width: 40%;
 }
-
+.sim-res {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.sim-res a {
+  float: right !important;
+}
 a {
-	color: rgb(218, 224, 227);
-	float:left;
-	clear:left;
+  pointer-events: all;
+  color: rgb(218, 224, 227);
+  float: left;
+  clear: left;
 }
 
 span {
-	text-align: center;
-	display:block;
-	font-weight:bold;
+  text-align: center;
+  display: block;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 800px) {
-	div.image-container {
-		display: none
-	}
-	div.column-text {
-		width: 100%
-	}
+  div.image-container {
+    display: none;
+  }
+  div.column-text {
+    width: 100%;
+  }
 }
-
+#fluid-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
