@@ -23,9 +23,15 @@ SOFTWARE.
 */
 
 "use strict";
-let startSim;
-let initFluid;
+let refreshId;
+let updateSim;
+function queueRedraw() {
+  clearTimeout(refreshId);
+  refreshId = setTimeout(updateSim, 500);
+}
 let htmlTexture;
+let initFluid;
+let startSim;
 let fluidConfig = {
   SIM_RESOLUTION: 256,
   DYE_RESOLUTION: 1024,
@@ -35,7 +41,7 @@ let fluidConfig = {
   PRESSURE_ITERATIONS: 20,
   CURL: 20,
   SPLAT_RADIUS: 0.25,
-  SPLAT_FORCE: 20000,
+  SPLAT_FORCE: 15000,
   COLOR_UPDATE_SPEED: 1,
   PAUSED: false,
   BACK_COLOR: { r: 20, g: 20, b: 20 },
@@ -375,6 +381,7 @@ window.addEventListener("load", () => {
     varying vec2 vT;
     varying vec2 vB;
     uniform sampler2D uTexture;
+    uniform sampler2D uText;
     uniform sampler2D uDithering;
     uniform vec2 ditherScale;
     uniform vec2 texelSize;
@@ -391,7 +398,11 @@ window.addEventListener("load", () => {
         gl_FragColor = vec4(c, a);
     }
 `;
+  // vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
 
+  // if (t.x + t.y + t.z > 1.) {
+  //      c = vec3(0.);
+  // }
   const splatShader = compileShader(
     gl.FRAGMENT_SHADER,
     `
@@ -499,6 +510,7 @@ window.addEventListener("load", () => {
     varying highp vec2 vR;
     varying highp vec2 vT;
     varying highp vec2 vB;
+    uniform float basePressure;
     uniform sampler2D uPressure;
     uniform sampler2D uDivergence;
     uniform sampler2D uText;
@@ -512,7 +524,11 @@ window.addEventListener("load", () => {
         float divergence = texture2D(uDivergence, vUv).x;
         float pressure = (L + R + B + T - divergence) * 0.25;
 
+        vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
 
+        if (t.x + t.y + t.z > 1.) {
+             pressure = basePressure;
+        }
         gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
     }
 `
@@ -801,13 +817,10 @@ window.addEventListener("load", () => {
 
   updateKeywords();
   initFramebuffers();
-  setInterval(() => {
-    multipleSplats(1);
-  }, 1000);
   let lastUpdateTime = Date.now();
   let colorUpdateTimer = 0.0;
-
-  function fluidUpdate() {
+  let lastSplat = 0;
+  function fluidUpdate(currentTime = 0) {
     const dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
     updateColors(dt);
@@ -816,9 +829,13 @@ window.addEventListener("load", () => {
     fluidConfig.SPLAT_RADIUS = 0.075;
     splat(0.9, 0.7, -10, 0, {
       r: 0,
-      g: 0.05 + 0.05 * Math.sin(5 * colorUpdateTimer * 0.324),
-      b: 0.1 + 0.05 * Math.sin(10 * colorUpdateTimer),
+      g: 0.03 + 0.01 * Math.sin(0.00684 * currentTime * 0),
+      b: 0.05 + 0.03 * Math.sin(0.005 * currentTime),
     });
+    if (currentTime - lastSplat > 1000) {
+      multipleSplats(1);
+      lastSplat = currentTime;
+    }
     fluidConfig.SPLAT_RADIUS = rad;
     if (!fluidConfig.PAUSED) step(dt);
     render(null);
@@ -849,7 +866,7 @@ window.addEventListener("load", () => {
     if (colorUpdateTimer >= 1) {
       colorUpdateTimer = wrap(colorUpdateTimer, 0, 1);
       pointers.forEach((p) => {
-        p.color = generateColor(1);
+        p.color = generateColor(0.75);
       });
     }
   }
@@ -889,8 +906,9 @@ window.addEventListener("load", () => {
       velocity.texelSizeX,
       velocity.texelSizeY
     );
+    gl.uniform1f(pressureProgram.uniforms.basePressure, fluidConfig.PRESSURE);
     gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
-    // gl.uniform1i(pressureProgram.uniforms.uText, htmlTexture.attach(1));
+    gl.uniform1i(pressureProgram.uniforms.uText, htmlTexture.attach(2));
 
     for (let i = 0; i < fluidConfig.PRESSURE_ITERATIONS; i++) {
       gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
@@ -990,6 +1008,7 @@ window.addEventListener("load", () => {
 
     displayMaterial.bind();
     gl.uniform1i(displayMaterial.uniforms.uTexture, dye.read.attach(0));
+    gl.uniform1i(displayMaterial.uniforms.uText, htmlTexture.attach(1));
 
     blit(target);
   }
@@ -1069,7 +1088,7 @@ window.addEventListener("load", () => {
     pointer.prevTexcoordY = pointer.texcoordY;
     pointer.deltaX = 0;
     pointer.deltaY = 0;
-    pointer.color = generateColor(1);
+    pointer.color = generateColor(0.75);
   }
 
   function updatePointerMoveData(pointer, posX, posY) {
@@ -1184,17 +1203,20 @@ window.addEventListener("load", () => {
     }
     return hash;
   }
-  var resizeId;
   window.addEventListener("resize", () => {
-    clearTimeout(resizeId);
-    resizeId = setTimeout(capturePage, 500);
+    queueRedraw();
   });
   function capturePage() {
+    const root = document.getElementById("root");
+    root.classList.add("nounderline");
     html2canvas(document.body).then(function (canv) {
+      fluidConfig.PAUSED = true;
       htmlTexture.attach(0);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canv);
       fluidConfig.PAUSED = false;
     });
+    root.classList.remove("nounderline");
   }
+  updateSim = capturePage;
   capturePage();
 });

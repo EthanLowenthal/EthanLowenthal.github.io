@@ -28,6 +28,7 @@ const links = {
   instagram: "https://www.instagram.com/ethan.lowenthal/",
   facebook: "https://www.facebook.com/ETHANMLOWENTHAL",
   linkedin: "https://www.linkedin.com/in/ethan-lowenthal",
+  shadertoy: "https://www.shadertoy.com/user/Jinkweiq",
   resume: "resume.pdf",
 };
 
@@ -37,6 +38,9 @@ class Line extends React.Component {
     $(window).resize(() => {
       this.forceUpdate();
     });
+  }
+  componentDidUpdate() {
+    queueRedraw();
   }
   render() {
     return <>{"\n\n" + "-".repeat(Math.floor(width)) + "\n"}</>;
@@ -53,7 +57,12 @@ const Links = (props) => {
       {"\n"}
       <blockquote>
         {Object.keys(links).map((each) => (
-          <a href={links[each]} key={each}>
+          <a
+            href={links[each]}
+            key={each}
+            className="links"
+            contentEditable="false"
+          >
             {each}
           </a>
         ))}
@@ -76,22 +85,52 @@ const Text = () => {
     {
       title: "About Me",
       text:
-        "I am Ethan Lowenthal, a 17 year old student at Gunn High School. In my free time, I love to bike, sail, and write code. I am also interested in machining and welding. I am always looking for new opportunities to learn and work on cool projects.",
+        "I am Ethan Lowenthal, a 18 year old college student. I graduated Gunn High School in 2020. \
+In my free time, I love to bike, sail, and write code. \
+I am also interested in machining and welding. \
+I am always looking for new opportunities to learn and work on cool projects.",
     },
     {
       title: "Projects & Skills",
-      text:
-        "I do machining and manage the shop for the Gunn Robotics Team. Most of my coding projects involve websites and images. I am fluent in Python (Flask, PIL, Numpy OpenCV) and Javascript (JQuery, React). I desigend a etched my own PCBs for a hat that plays music and diagnosed and fixed many broken electronics.",
+      text: (
+        <>
+          {
+            "I did machining and managed the shop for the Gunn Robotics Team.\
+I am fluent in Python, Javascript, and GLSL. I desigend a etched my own PCBs for a hat that plays music.\
+One of my most notable shaders (program the run on the GPU) is a "
+          }
+          <a
+            href="https://www.shadertoy.com/view/wstBz4"
+            contentEditable="false"
+          >
+            playable game of chess
+          </a>
+          {"."}
+        </>
+      ),
     },
     {
       title: "About This Site",
-      text:
-        "This site was created for fun in 2019 with Node, React, Babel, and WebPack from scratch by Ethan Lowenthal.",
+      text: (
+        <>
+          {`The background of the website is a fluid simulation based on the one by `}
+          <a
+            href="https://github.com/PavelDoGreat/WebGL-Fluid-Simulation"
+            contentEditable="false"
+          >
+            Pavel Dobryakov
+          </a>
+          {` that will interact with the html on the page. You can play around with your mouse or `}
+          <a contentEditable="true" className="underlined">
+            click here to edit the content of this page
+          </a>
+        </>
+      ),
     },
   ];
 
   return (
-    <div className="column column-text">
+    <div className="column column-text" contentEditable="true">
       <div className="text-container">
         <pre>
           {items.map((item) => (
@@ -161,6 +200,7 @@ const SimResolution = () => {
         {Object.entries(res).map((e) => (
           <div key={e[1]}>
             <a
+              contentEditable="false"
               onClick={() => {
                 setResolution(e[1]);
               }}
@@ -179,7 +219,9 @@ const SimResolution = () => {
 const Disclaimer = () => (
   <div className="disclaimer">
     <pre>
-      <a href="disclaimer">disclaimer</a>
+      <a href="disclaimer" contentEditable="false">
+        disclaimer
+      </a>
     </pre>
   </div>
 );
@@ -194,8 +236,11 @@ const Page = () => (
     <Disclaimer />
   </>
 );
-
-ReactDOM.render(<Page />, document.getElementById("root"));
+const root = document.getElementById("root");
+ReactDOM.render(<Page />, root);
+root.oninput = () => {
+  queueRedraw();
+};
 
 $(window).trigger("resize");
 
@@ -204,6 +249,5 @@ t = setInterval(() => {
   try {
     startSim();
     clearInterval(t);
-    console.log("cleard");
   } catch {}
 }, 100);

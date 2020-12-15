@@ -1,1 +1,1 @@
-Made by entirely by Ethan Lowenthal from scratch.
+Made by entirely by Ethan Lowenthal from scratch (with some help with the fluid sim).
