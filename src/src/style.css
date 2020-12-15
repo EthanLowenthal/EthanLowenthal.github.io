@@ -1,0 +1,78 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	overflow: hidden;
+	position: relative;
+	background: rgb(21, 22, 22);
+	font-size: 15px;
+}
+
+pre {
+	color: rgb(215, 227, 228);
+	white-space: pre-wrap;
+}
+
+.disclaimer {
+	position: relative;
+	margin-left: calc(100% - 7em);
+	bottom: 5em;
+	opacity: 0.2;
+}
+
+.text-container {
+	margin-top: -3em;
+	padding-left: 2em;
+
+}
+
+.image-container {
+	width: 100%;
+}
+
+.border {
+	border-style: solid;
+	border-width: 1px;
+	border-color: white;
+}
+
+.row {
+	margin-top: 3em;
+    display: table;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.column {
+    display: table-cell;
+}
+
+.column-text  {
+	overflow: auto;
+	display: table-cell;
+	width: 40%;
+}
+
+a {
+	color: rgb(218, 224, 227);
+	float:left;
+	clear:left;
+}
+
+span {
+	text-align: center;
+	display:block;
+	font-weight:bold;
+}
+
+@media screen and (max-width: 800px) {
+	div.image-container {
+		display: none
+	}
+	div.column-text {
+		width: 100%
+	}
+}
+

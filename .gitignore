@@ -2,3 +2,7 @@
 .idea
 old
 old/
+src/node_modules
+src/built
+src/node_modules/
+src/built/

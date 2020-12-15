@@ -1,0 +1,23 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    overflow: scroll;
+    position: relative;
+    background: rgb(21, 22, 22);
+    font-size: 15px;
+}
+
+pre {
+    color: rgb(215, 227, 228);
+    white-space: pre-wrap;
+}
+
+a {
+    color: rgb(218, 224, 227);
+}
+
+.container {
+    margin: 50px;
+}
