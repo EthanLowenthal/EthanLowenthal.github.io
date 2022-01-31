@@ -4,6 +4,9 @@ body {
   height: 100%;
   margin: 0;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 .nounderline a {
   text-decoration: none !important;
 }
@@ -60,7 +63,7 @@ pre {
 }
 
 .image-container {
-  position: fixed;
+  position: absolute;
   bottom: calc(70vh - 4ch);
   left: calc(90vw - 39ch);
 }
