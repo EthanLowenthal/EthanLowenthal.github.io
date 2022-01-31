@@ -827,11 +827,15 @@ window.addEventListener("load", () => {
     applyInputs();
     let rad = fluidConfig.SPLAT_RADIUS;
     fluidConfig.SPLAT_RADIUS = 0.075;
-    splat(0.9, 0.7, -10, 0, {
-      r: 0,
-      g: 0.03 + 0.01 * Math.sin(0.00684 * currentTime * 0),
-      b: 0.05 + 0.03 * Math.sin(0.005 * currentTime),
-    });
+
+    if (window.innerWidth > 800) {
+      splat(0.9, .7, -10, 0, {
+        r: 0,
+        g: 0.03 + 0.01 * Math.sin(0.00684 * currentTime * 0),
+        b: 0.05 + 0.03 * Math.sin(0.005 * currentTime),
+      });
+    }
+
     if (currentTime - lastSplat > 1000) {
       multipleSplats(1);
       lastSplat = currentTime;

@@ -17,7 +17,7 @@ const Text = () => (
 );
 const Home = () => (
     <pre>
-        <a href="https://ethansawesomewebsite.tk/">Go Home</a>
+        <a href={`https://${window.location.hostname}/`}>Go Home</a>
     </pre>
 );
 

@@ -7,6 +7,12 @@ body {
 .nounderline a {
   text-decoration: none !important;
 }
+[contenteditable]:focus {
+  outline: 1px solid rgba(255, 255, 255, 0.438);
+}
+[contenteditable] > * {
+  pointer-events: all;
+}
 #root {
   z-index: 100;
   overflow: hidden;
@@ -50,12 +56,13 @@ pre {
 }
 
 .text-container {
-  margin-top: -3em;
   padding-left: 2em;
 }
 
 .image-container {
-  width: 100%;
+  position: fixed;
+  bottom: calc(70vh - 4ch);
+  left: calc(90vw - 39ch);
 }
 
 .border {
@@ -66,20 +73,18 @@ pre {
 
 .row {
   margin-top: 3em;
-  display: table;
   height: 100%;
   width: 100%;
-  table-layout: fixed;
 }
 
 .column {
-  display: table-cell;
+  height: 100vh;
 }
 
 .column-text {
   overflow: auto;
-  display: table-cell;
   width: 40%;
+  font-family: monospace;
 }
 .sim-res {
   position: absolute;
@@ -116,6 +121,11 @@ span {
   position: absolute;
   left: 0;
   top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
   width: 100vw;
   height: 100vh;
 }

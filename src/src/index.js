@@ -10,11 +10,11 @@ var font_size = parseFloat($("body").css("font-size"));
 $(window).resize(() => {
   if ($(".row").height() + 3 * font_size >= $(window).height()) {
     $("body").css("overflow", "scroll");
-    $(".disclaimer").css("position", "relative");
+    // $(".disclaimer").css("position", "relative");
   } else {
     $("html, body").animate({ scrollTop: 0 }, 0);
     $("body").css("overflow", "hidden");
-    $(".disclaimer").css("position", "absolute");
+    // $(".disclaimer").css("position", "absolute");
   }
 
   font_size = parseFloat($("body").css("font-size"));
@@ -25,11 +25,9 @@ $(window).resize(() => {
 
 const links = {
   "ethanmlowenthal(a)gmail.com": "mailto:ethanmlowenthal@gmail.com",
-  instagram: "https://www.instagram.com/ethan.lowenthal/",
-  facebook: "https://www.facebook.com/ETHANMLOWENTHAL",
   linkedin: "https://www.linkedin.com/in/ethan-lowenthal",
+  github: "https://github.com/EthanLowenthal",
   shadertoy: "https://www.shadertoy.com/user/Jinkweiq",
-  resume: "resume.pdf",
 };
 
 class Line extends React.Component {
@@ -80,22 +78,26 @@ const Item = (props) => (
   </>
 );
 
+const now = new Date()
+const birthday = new Date('June 1, 2002 12:00:00');
+const age = (now - birthday) / (1000 * 60 * 60 * 24 * 365);
+
 const Text = () => {
   const items = [
     {
       title: "About Me",
       text:
-        "I am Ethan Lowenthal, a 18 year old college student. I graduated Gunn High School in 2020. \
+        `I am Ethan Lowenthal, a ${Math.floor(age)} year old college student. I graduated Gunn High School in 2020. \
 In my free time, I love to bike, sail, and write code. \
 I am also interested in machining and welding. \
-I am always looking for new opportunities to learn and work on cool projects.",
+I am always looking for new opportunities to learn and work on cool projects.`,
     },
     {
       title: "Projects & Skills",
       text: (
         <>
           {
-            "I did machining and managed the shop for the Gunn Robotics Team.\
+            "I managed the shop for the Gunn Robotics Team.\
 I am fluent in Python, Javascript, and GLSL. I designed and etched my own PCBs for a hat that plays music.\
 One of my most notable shaders (program the run on the GPU) is a "
           }
@@ -216,24 +218,15 @@ const SimResolution = () => {
     </div>
   );
 };
-const Disclaimer = () => (
-  <div className="disclaimer">
-    <pre>
-      <a href="disclaimer" contentEditable="false">
-        disclaimer
-      </a>
-    </pre>
-  </div>
-);
+
 
 const Page = () => (
   <>
-    <div className="row">
+    <div className="row" contentEditable="false">
       <Text />
       <Image />
     </div>
     <SimResolution />
-    <Disclaimer />
   </>
 );
 const root = document.getElementById("root");
@@ -243,6 +236,7 @@ root.oninput = () => {
 };
 
 $(window).trigger("resize");
+document.body.setAttribute('spellcheck', false);
 
 let t;
 t = setInterval(() => {
