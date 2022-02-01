@@ -3,7 +3,7 @@ const HWP = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    main: path.join(__dirname, "/src/404/index.js"),
+    main: path.join(__dirname, "/src/index.js"),
   },
   output: {
     filename: "[name].js",
@@ -25,7 +25,7 @@ module.exports = {
   },
   plugins: [
     new HWP({
-      template: path.join(__dirname, "/src/404/index.html"),
+      template: path.join(__dirname, "/src/index.html"),
     }),
   ],
 };
