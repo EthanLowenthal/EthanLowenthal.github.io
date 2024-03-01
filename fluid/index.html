@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <script src="shaders.js" type="text/javascript"></script>
+        <script src="script.js" type="text/javascript"></script>
+        <style>
+            #canvas {
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+            div {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                color: white;
+                font-family: monospace;
+                align-items: flex-start;
+            }
+            P {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+        <div>
+            <p id="particle_count"></p>
+            <p id="fps">asd</p>  
+        </div>
+    </body>
+</html>
