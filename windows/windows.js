@@ -28,6 +28,8 @@ const step = () => {
         y: window.screenY + window.outerHeight / 2,
     };
 
+    const now = Date.now();
+
     ctx.fillStyle = "#0d2c44";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -35,8 +37,7 @@ const step = () => {
     ctx.strokeStyle = "#1B5788";
 
     
-    window.localStorage.setItem(window.name, [pos.x, pos.y]);
-    
+    window.localStorage.setItem(window.name, [pos.x, pos.y, now]);
 
 
     for (var i = 0; i < localStorage.length; i++){
@@ -44,6 +45,11 @@ const step = () => {
         self = {
             x: parseFloat(self[0]),
             y: parseFloat(self[1]),
+            time: parseFloat(self[2]),
+        }
+        if (now - self.time > 500) {
+            window.localStorage.clear();
+            continue;
         }
         self.x_relative = self.x - pos.x + canvas.width / 2;
         self.y_relative = self.y - pos.y + canvas.height / 2;
@@ -59,6 +65,7 @@ const step = () => {
                 x: parseFloat(other[0]),
                 y: parseFloat(other[1]),
             }
+            
             other.x_relative = other.x - self.x;
             other.y_relative = other.y - self.y;
 
@@ -86,7 +93,6 @@ const init = () => {
     ctx = canvas.getContext('2d');
 
     window.setInterval(step, 1000/30);
-    window.setInterval(() => window.localStorage.clear(), 2500);
 
     window.addEventListener('resize', resizeCanvas, false);
 
