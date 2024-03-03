@@ -13,6 +13,7 @@ let hueBar;
 var mouse = { x:0, y:0, down:false, selectingH:false, selectingSV:false };
 
 const epsilon = 1e-6;
+const INVALID = 'is-invalid';
 
 function clamp(number, min, max) {
     return Math.max(min, Math.min(number, max));
@@ -112,6 +113,23 @@ function NRGBtoRGB([r, g, b]) {
     return [r*255, g*255, b*255];
 }
 
+const clearInvalid = () => {
+    hexValue.classList.remove(INVALID);
+    hsvValue.classList.remove(INVALID);
+    rgbValue.classList.remove(INVALID);
+    nrgbValue.classList.remove(INVALID);
+}
+const setInvalid = elem => {
+    elem.classList.add(INVALID);
+}
+const onCopy = evt => {
+    const input = evt.target.parentNode.getElementsByTagName('input')[0];
+    input.select();
+    input.setSelectionRange(0, 99999); 
+
+    navigator.clipboard.writeText(input.value);
+}
+
 const setColor = (rgb) => {
     color = rgb;
     hexValue.value = RGBtoHEX(color);
@@ -148,6 +166,8 @@ const setColor = (rgb) => {
     const hueRect = hueBar.getBoundingClientRect();
     hHandle.style.top = `${hueRect.top + hueRect.height * 0.5}px`;
     hHandle.style.left = `${hueRect.left + hueRect.width * hsv[0] / 360}px`;
+
+    clearInvalid();
 }
 
 const colorPicker = () => {
@@ -175,6 +195,7 @@ const colorPicker = () => {
         if (match != null) {
             setColor(HEXtoRGB(match[1]));
         }
+        else { setInvalid(hexValue); }
     })
 
     hsvValue.addEventListener("change", e => {
@@ -187,6 +208,7 @@ const colorPicker = () => {
                 parseInt(match[3]) / 100
             ]));
         }
+        else { setInvalid(hsvValue); }
     })
 
 
@@ -200,6 +222,7 @@ const colorPicker = () => {
                 parseInt(match[3])
             ]);
         }
+        else { setInvalid(rgbValue); }
     })
 
     nrgbValue.addEventListener("change", e => {
@@ -212,7 +235,12 @@ const colorPicker = () => {
                 parseFloat(match[3]) * 255
             ]);
         }
+        else { setInvalid(nrgbValue); }
     })
+
+    document.querySelectorAll(".copy-icon").forEach(elem => {
+        elem.addEventListener("click", onCopy);
+    });
 
     setColor(color);
 }
