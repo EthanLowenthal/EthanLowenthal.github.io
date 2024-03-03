@@ -114,7 +114,7 @@ const run = () => {
     const canvas = document.querySelector("canvas");
     canvas.width = window.innerWidth * 1;
     canvas.height = window.innerHeight * 1;
-    const gl = canvas.getContext("webgl2");
+    const gl = canvas.getContext("webgl2", { alpha: false });
 
     var ext = gl.getExtension("EXT_color_buffer_float");
     if (!ext) {
@@ -226,14 +226,27 @@ const run = () => {
     }
 
     var quad_vertex_buffer = gl.createBuffer();
-    var quad_vertex_buffer_data = new Float32Array([ 
-        -1.0, -1.0, 0.0,
-        1.0, -1.0, 0.0,
-        -1.0,  1.0, 0.0,
-        -1.0,  1.0, 0.0,
-        1.0, -1.0, 0.0,
-        1.0,  1.0, 0.0,
-    ]);
+    var quad_vertex_buffer_data = new Float32Array(WIDTH * HEIGHT * 3).fill(0.0);
+
+    quad_vertex_buffer_data[0] = -1.0;
+    quad_vertex_buffer_data[1] = -1.0;
+
+    quad_vertex_buffer_data[3] = 1.0;
+    quad_vertex_buffer_data[4] = -1.0;
+
+    quad_vertex_buffer_data[6] = -1.0;
+    quad_vertex_buffer_data[7] = 1.0;
+
+    quad_vertex_buffer_data[9] = -1.0;
+    quad_vertex_buffer_data[10] = 1.0;
+
+    quad_vertex_buffer_data[12] = 1.0;
+    quad_vertex_buffer_data[13] = -1.0;
+
+    quad_vertex_buffer_data[15] = 1.0;
+    quad_vertex_buffer_data[16] = 1.0;
+
+
     gl.bindBuffer(gl.ARRAY_BUFFER, quad_vertex_buffer);
     gl.bufferData(gl.ARRAY_BUFFER, quad_vertex_buffer_data, gl.STATIC_DRAW);
     var vertexPositionAttribute = gl.getAttribLocation(advect.program, "v_position");
@@ -264,7 +277,7 @@ const run = () => {
         gradientSubtract.run(); // pressure, velocity => velocity
         passthrough(tempField, velocityField);
 
-        passthrough(velocityField, null);
+        // passthrough(velocityField, null);
         
         gl.useProgram(pointAdvect.program);
         gl.uniform1f(gl.getUniformLocation(pointAdvect.program, "dt"), dt);
@@ -289,9 +302,12 @@ const run = () => {
     document.getElementById("particle_count").innerText = `${WIDTH * HEIGHT} particles`;
 
     gl.clearColor(0.0, 18.0/255., 25.0/255.0, 1);
-    // gl.disable(gl.DEPTH_TEST);
-    // gl.enable(gl.BLEND);
-    // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // gl.enable(gl.DEPTH_TEST);
+    // gl.depthMask(false);
+    gl.enable(gl.ALPHA_TEST);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE);
 
     pointInitProgram.run();
     // pointInitProgram.output = velocityField;

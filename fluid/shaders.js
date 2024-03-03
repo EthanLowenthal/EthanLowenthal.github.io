@@ -26,7 +26,7 @@ void main() {
     vec2 position = texelFetch(positions, index, 0).xy;
 
     gl_Position = vec4(position,0,1);
-    gl_PointSize = 3.0;
+    gl_PointSize = 1.0;
     uv = (v_position.xy + 1.) * 0.5;
 }
 `;
@@ -155,7 +155,8 @@ void main() {
             vec3(0.000, 0.372, 0.450),
             vec3(0.682, 0.125, 0.070),
             smoothstep(0., 1., pow(speed, 1./10.))
-        );
+        ) * 2.;
+        
     fragColor = vec4(color, 1.);
 }`
 const pointAdvectSource = /* glsl */`#version 300 es
@@ -191,6 +192,6 @@ float rand(vec2 co){
     return fract(sin(dot(co, vec2(12.9898, 7.233))) * 43758.5453);
 }
 void main() {
-    fragColor = vec4(2. * vec2(rand(vec2(gl_FragCoord.xy)), rand(gl_FragCoord.yx)) - 1.,0,0);
+    fragColor = vec4(2. * vec2(rand(vec2(gl_FragCoord.xy)), rand(gl_FragCoord.yx)) - 1.,0,1);
     // fragColor = vec4(uv * 2. - 1., 0, 0);
 }`
