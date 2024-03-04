@@ -20,8 +20,6 @@ var GUID = function () {
         );
 };
 
-
-
 const step = () => {
     pos = {
         x: window.screenX + window.outerWidth / 2,
@@ -36,9 +34,7 @@ const step = () => {
     ctx.fillStyle = "#1B5788";
     ctx.strokeStyle = "#1B5788";
 
-    
     window.localStorage.setItem(window.name, [pos.x, pos.y, now]);
-
 
     for (var i = 0; i < localStorage.length; i++){
         let self = localStorage.getItem(localStorage.key(i)).split(",");
@@ -65,7 +61,7 @@ const step = () => {
                 x: parseFloat(other[0]),
                 y: parseFloat(other[1]),
             }
-            
+
             other.x_relative = other.x - self.x;
             other.y_relative = other.y - self.y;
 
@@ -75,11 +71,7 @@ const step = () => {
             ctx.lineWidth = 15;
             ctx.stroke();
         }
-
-   
-
     }
-
 }
 
 const init = () => {
