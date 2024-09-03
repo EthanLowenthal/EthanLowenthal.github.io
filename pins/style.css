@@ -1,0 +1,14 @@
+#pin-table {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#pin-table .pin-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.pin-cell {
+    width: 9px;
+    height: 9px;
+}
