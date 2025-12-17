@@ -10,8 +10,8 @@ let htmlTexture;
 let initFluid;
 let startSim;
 let fluidConfig = {
-  SIM_RESOLUTION: 32,
-  DYE_RESOLUTION: 32,
+  SIM_RESOLUTION: 256,
+  DYE_RESOLUTION: 512,
   DENSITY_DISSIPATION: 0.5,
   VELOCITY_DISSIPATION: 0.2,
   PRESSURE: 0.5,
@@ -797,6 +797,7 @@ window.addEventListener("load", () => {
   let lastUpdateTime = Date.now();
   let colorUpdateTimer = 0.0;
   let lastSplat = 0;
+  let splatInterval = Math.random() * 1000 + 500;
   function fluidUpdate(currentTime = 0) {
     const dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
@@ -813,9 +814,10 @@ window.addEventListener("load", () => {
       });
     }
 
-    if (currentTime - lastSplat > 1000) {
-      multipleSplats(1);
+    if (currentTime - lastSplat > splatInterval) {
+      multipleSplats(Math.floor(Math.random() * 3) + 1);
       lastSplat = currentTime;
+      splatInterval = Math.random() * 2000 + 500;
     }
     fluidConfig.SPLAT_RADIUS = rad;
     if (!fluidConfig.PAUSED) step(dt);

@@ -78,6 +78,31 @@ const Item = (props) => (
   </>
 );
 
+// ## About Me
+
+
+// ## Experience
+
+// ### PsiQuantum — R&D Engineer
+// At PsiQuantum, I am part of a multidisciplinary team focused on building scalable quantum computing systems. My responsibilities include designing and testing experimental setups, analyzing data, and contributing to the development of new quantum hardware and software. I work closely with physicists, engineers, and software developers to accelerate progress toward practical quantum computing, supporting the company’s mission to deliver transformative technology.
+
+// ## Skills
+
+// - Developing and optimizing silicon photonics scalable manufacturing processes for quantum computing
+// - Experimental design and data analysis
+// - Full-stack software development
+// - Python, C++, and scientific computing tools
+// - Collaborative problem-solving
+// - Technical documentation and communication
+
+// ## Interests
+
+// I am passionate about emerging technologies, scientific discovery, and contributing to projects that have a meaningful impact on society. Outside of work, I enjoy learning about new advancements in computing and exploring innovative approaches to technical challenges.
+
+// ## Skills
+
+
+
 const now = new Date()
 const birthday = new Date('June 1, 2002 12:00:00');
 const age = (now - birthday) / (1000 * 60 * 60 * 24 * 365);
@@ -87,19 +112,20 @@ const Text = () => {
     {
       title: "About Me",
       text:
-        `I am Ethan Lowenthal, a ${Math.floor(age)} year old college student. I graduated Gunn High School in 2020. \
-In my free time, I love to bike, sail, and write code. \
-I am also interested in machining and welding. \
-I am always looking for new opportunities to learn and work on cool projects.`,
+        `I am a software engineer at PsiQuantum, developing and optimizing scalable manufacturing processes for photonics-based quantum computing. I thrive in collaborative environments, where I apply scientific rigor and creative problem-solving to complex technical challenges.`,
     },
     {
       title: "Projects & Skills",
       text: (
         <>
           {
-            "I managed the shop for the Gunn Robotics Team.\
-I am fluent in Python, Javascript, and GLSL. I designed and etched my own PCBs for a hat that plays music.\
-One of my most notable shaders (program the run on the GPU) is a "
+            `- Silicon photonics research and development
+- Experimental design and data analysis
+- Full-stack software development
+- Python, C++, and scientific computing tools
+- Collaborative problem-solving
+- Technical documentation and communication
+`
           }
           <a
             href="https://www.shadertoy.com/view/wstBz4"

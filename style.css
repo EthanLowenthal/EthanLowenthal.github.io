@@ -1,7 +1,5 @@
 html,
 body {
-  user-select: none;
-  height: 100%;
   margin: 0;
 }
 ::-webkit-scrollbar {
@@ -14,13 +12,13 @@ body {
   outline: 1px solid rgba(255, 255, 255, 0.438);
 }
 [contenteditable] > * {
-  pointer-events: all;
+  /* pointer-events: all; */
 }
 #root {
   z-index: 100;
   overflow: hidden;
   position: absolute;
-  pointer-events: none;
+  /* pointer-events: none; */
   font-size: 15px;
   color: rgb(215, 227, 228);
 }
@@ -49,13 +47,6 @@ pre {
   display: inline;
   margin: 0;
   white-space: pre-wrap;
-}
-
-.disclaimer {
-  position: relative;
-  margin-left: calc(100% - 7em);
-  bottom: 5em;
-  opacity: 0.2;
 }
 
 .text-container {
@@ -98,30 +89,20 @@ pre {
   float: right !important;
 }
 a {
-  pointer-events: all;
+  /* pointer-events: all; */
   color: rgb(218, 224, 227);
-}
-.links {
-  float: left;
-  clear: left;
-}
-
-span {
-  text-align: center;
-  display: block;
-  font-weight: bold;
 }
 
 @media screen and (max-width: 800px) {
-  div.image-container {
+  .disclaimer {
     display: none;
   }
-  div.column-text {
-    width: 100%;
+  .page {
+    max-width: unset;
   }
 }
 #fluid-canvas {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
@@ -129,6 +110,41 @@ span {
 }
 
 #root {
-  width: 100vw;
-  height: 100vh;
+  margin: 3em 9ch;
+  font-family: "Source Code Pro", monospace;
+  line-height: 1.6;
+  font-style: normal;
+  position: relative;
 }
+
+.page {
+  max-width: 110ch;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.disclaimer {
+  width: 26ch;
+  margin-top: 6.5%;
+  margin-right: 5%;
+}
+
+.ascii-art {
+  font-family: "Source Code Pro", monospace;
+  font-size: 12px;
+  line-height: 1;
+  white-space: pre;
+  letter-spacing: -1px;
+}
+
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Source Code Pro'), url('SourceCodePro-VariableFont_wght.ttf') format('ttf');
+}
+
