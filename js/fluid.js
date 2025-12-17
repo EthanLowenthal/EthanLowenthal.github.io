@@ -7,6 +7,7 @@ function queueRedraw() {
   refreshId = setTimeout(updateSim, 500);
 }
 let htmlTexture;
+let htmlCanv;
 let initFluid;
 let startSim;
 let fluidConfig = {
@@ -372,6 +373,13 @@ window.addEventListener("load", () => {
         vec3 c = texture2D(uTexture, vUv).rgb;
 
         float a = max(c.r, max(c.g, c.b));
+
+        // vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
+
+        // if (t.x + t.y + t.z > 1.) {
+        //     c.r = 1.;
+        // }
+
         gl_FragColor = vec4(c, a);
     }
 `;
@@ -1189,17 +1197,62 @@ window.addEventListener("load", () => {
   window.addEventListener("resize", () => {
     queueRedraw();
   });
+
+  const updateHTMLTexture = () => {
+    if (!htmlCanv) return;
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = htmlCanv.width;
+    tempCanvas.height = htmlCanv.height;
+
+    const scaleFactor = (window.outerHeight + window.innerHeight) / window.innerHeight;
+
+    tempCtx.drawImage(
+      htmlCanv, 
+      0, window.scrollY * window.devicePixelRatio,
+      htmlCanv.width,htmlCanv.height,
+      0, 0, 
+      htmlCanv.width,htmlCanv.height * scaleFactor 
+    );
+    fluidConfig.PAUSED = true;
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tempCanvas);
+    fluidConfig.PAUSED = false;
+    
+  }
+
   function capturePage() {
-    const root = document.getElementById("root");
-    root.classList.add("nounderline");
-    html2canvas(document.body).then(function (canv) {
+    html2canvas(document.body, {
+      scrollY: 0,
+      height: window.outerHeight + window.innerHeight,
+      windowHeight: window.outerHeight + window.innerHeight
+    }).then(function (canv) {
+      const root = document.getElementById('root');
       fluidConfig.PAUSED = true;
       htmlTexture.attach(0);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canv);
+      htmlCanv = canv;
+
+      // Create a blurred version of htmlCanv
+      const blurredCanvas = document.createElement('canvas');
+      const blurredCtx = blurredCanvas.getContext('2d');
+      blurredCanvas.width = htmlCanv.width;
+      blurredCanvas.height = htmlCanv.height;
+
+      blurredCtx.globalAlpha = 0.5;
+      const blurAmount = 2;
+      blurredCtx.globalCompositeOperation = 'lighten';
+      for (let x = -blurAmount; x <= blurAmount; x++) {
+        for (let y = -blurAmount; y <= blurAmount; y++) {
+          blurredCtx.drawImage(htmlCanv, x, y);
+        }
+      }
+      blurredCtx.globalAlpha = 1.0;
+      htmlCanv = blurredCanvas;
+
+      updateHTMLTexture();updateHTMLTexture();
       fluidConfig.PAUSED = false;
     });
-    root.classList.remove("nounderline");
   }
+  window.addEventListener("scroll", updateHTMLTexture);
   updateSim = capturePage;
   capturePage();
 });
