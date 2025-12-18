@@ -5,15 +5,6 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
-.nounderline a {
-  text-decoration: none !important;
-}
-[contenteditable]:focus {
-  outline: 1px solid rgba(255, 255, 255, 0.438);
-}
-[contenteditable] > * {
-  /* pointer-events: all; */
-}
 #root {
   z-index: 100;
   overflow: hidden;
@@ -100,6 +91,9 @@ a {
   .page {
     max-width: unset;
   }
+  #root {
+    margin: 1em 3ch !important;
+  }
 }
 #fluid-canvas {
   position: fixed;
@@ -121,6 +115,10 @@ a {
   max-width: 110ch;
 }
 
+a {
+  color: rgb(170 209 228);
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -129,7 +127,7 @@ a {
 
 .disclaimer {
   width: 26ch;
-  margin-top: 6.5%;
+  margin-top: 42px;
   margin-right: 5%;
 }
 
@@ -139,6 +137,14 @@ a {
   line-height: 1;
   white-space: pre;
   letter-spacing: -1px;
+}
+
+.page {
+  overflow-x: scroll;
+}
+
+ul > li:not(:first-child) {
+  margin-top: 1em;
 }
 
 @font-face {
