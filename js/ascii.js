@@ -28,5 +28,4 @@ const resizeAsciiArt = () => {
   asciiElements.forEach((element) => {
       element.style.fontSize = `${minWidth}px`;
   });
-  console.log('Ascii art resized');
 }

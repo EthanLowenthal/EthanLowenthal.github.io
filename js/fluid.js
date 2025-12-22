@@ -1222,7 +1222,6 @@ window.addEventListener("load", () => {
 
   function capturePage() {
     resizeAsciiArt();
-    console.log("Capturing page...");
     html2canvas(document.body, {
       scrollY: 0,
       height: window.outerHeight + window.innerHeight,
