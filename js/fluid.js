@@ -374,11 +374,11 @@ window.addEventListener("load", () => {
 
         float a = max(c.r, max(c.g, c.b));
 
-        vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
+        // vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
 
-        if (t.x + t.y + t.z > 1.) {
-            c.r = 1.;
-        }
+        // if (t.x + t.y + t.z > 1.) {
+        //     c.r = 1.;
+        // }
 
         gl_FragColor = vec4(c, a);
     }
@@ -1202,21 +1202,17 @@ window.addEventListener("load", () => {
     if (!htmlCanv) return;
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
-    tempCanvas.width = htmlCanv.width;
-    tempCanvas.height = htmlCanv.height;
 
-    // const c = document.getElementById('fluid-canvas');
-
-    // document.getElementById('debug').innerHTML = `Canvas height: ${c.height}, window height: ${c.height}, window.innerHeight: ${window.innerHeight}, window.outerHeight: ${window.outerHeight}, htmlCanvas height: ${htmlCanv.height / window.devicePixelRatio}`;
-    document.getElementById('debug').innerHTML = 'redo fix';
-    const scaleFactor = (window.outerHeight + window.innerHeight) / window.outerHeight;
+    const fluidCanvas = document.getElementById('fluid-canvas');
+    tempCanvas.width = fluidCanvas.width;
+    tempCanvas.height = fluidCanvas.height;
 
     tempCtx.drawImage(
       htmlCanv, 
       0, window.scrollY * window.devicePixelRatio,
-      htmlCanv.width,htmlCanv.height,
+      tempCanvas.width, tempCanvas.height,
       0, 0, 
-      htmlCanv.width,htmlCanv.height * scaleFactor 
+      tempCanvas.width, tempCanvas.height
     );
     fluidConfig.PAUSED = true;
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tempCanvas);
@@ -1260,6 +1256,7 @@ window.addEventListener("load", () => {
   }
   window.addEventListener("scroll", updateHTMLTexture);
   window.addEventListener("resize", capturePage);
+
   updateSim = capturePage;
   resizeAsciiArt();
   capturePage();
