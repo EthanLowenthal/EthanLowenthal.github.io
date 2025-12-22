@@ -374,11 +374,11 @@ window.addEventListener("load", () => {
 
         float a = max(c.r, max(c.g, c.b));
 
-        // vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
+        vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
 
-        // if (t.x + t.y + t.z > 1.) {
-        //     c.r = 1.;
-        // }
+        if (t.x + t.y + t.z > 1.) {
+            c.r = 1.;
+        }
 
         gl_FragColor = vec4(c, a);
     }
