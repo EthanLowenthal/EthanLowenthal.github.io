@@ -17,7 +17,6 @@ const resizeAsciiArt = () => {
     element.style.fontSize = `${width}px`;
 
     while (element.scrollWidth > parentWidth && width > 2) {
-        console.log(`Resizing ASCII art from ${width}px`);
       width -= 1;
       element.style.fontSize = `${width}px`;
     }
@@ -26,10 +25,7 @@ const resizeAsciiArt = () => {
     }
   });
 
-asciiElements.forEach((element) => {
-    element.style.fontSize = `${minWidth}px`;
-});
+  asciiElements.forEach((element) => {
+      element.style.fontSize = `${minWidth}px`;
+  });
 }
-
-window.addEventListener('resize', resizeAsciiArt);
-window.addEventListener('load', resizeAsciiArt);

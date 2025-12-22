@@ -42,7 +42,7 @@ function pointerPrototype() {
 let pointers = [];
 let splatStack = [];
 pointers.push(new pointerPrototype());
-window.addEventListener("load", () => {
+window.addEventListener("load", () => {  
   const canvas = document.getElementById("fluid-canvas");
   resizeCanvas();
   const { gl, ext } = getWebGLContext(canvas);
@@ -1221,6 +1221,7 @@ window.addEventListener("load", () => {
   }
 
   function capturePage() {
+    resizeAsciiArt();
     html2canvas(document.body, {
       scrollY: 0,
       height: window.outerHeight + window.innerHeight,
@@ -1248,11 +1249,13 @@ window.addEventListener("load", () => {
       blurredCtx.globalAlpha = 1.0;
       htmlCanv = blurredCanvas;
 
-      updateHTMLTexture();updateHTMLTexture();
+      updateHTMLTexture();
       fluidConfig.PAUSED = false;
     });
   }
   window.addEventListener("scroll", updateHTMLTexture);
+  window.addEventListener("resize", capturePage);
   updateSim = capturePage;
+  resizeAsciiArt();
   capturePage();
 });
