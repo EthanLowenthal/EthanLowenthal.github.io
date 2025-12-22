@@ -1205,11 +1205,11 @@ window.addEventListener("load", () => {
     tempCanvas.width = htmlCanv.width;
     tempCanvas.height = htmlCanv.height;
 
-    const c = document.getElementById('fluid-canvas');
+    // const c = document.getElementById('fluid-canvas');
 
-    document.getElementById('debug').innerHTML = `Canvas height: ${c.height}, window height: ${c.height}, window.innerHeight: ${window.innerHeight}, window.outerHeight: ${window.outerHeight}, htmlCanvas height: ${htmlCanv.height / window.devicePixelRatio}`;
+    // document.getElementById('debug').innerHTML = `Canvas height: ${c.height}, window height: ${c.height}, window.innerHeight: ${window.innerHeight}, window.outerHeight: ${window.outerHeight}, htmlCanvas height: ${htmlCanv.height / window.devicePixelRatio}`;
 
-    const scaleFactor = (window.outerHeight + window.innerHeight) / window.innerHeight;
+    const scaleFactor = (window.outerHeight + window.innerHeight) / window.outerHeight;
 
     tempCtx.drawImage(
       htmlCanv, 
