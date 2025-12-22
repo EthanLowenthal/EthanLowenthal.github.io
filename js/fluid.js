@@ -1259,4 +1259,6 @@ window.addEventListener("load", () => {
   updateSim = capturePage;
   resizeAsciiArt();
   capturePage();
+  
+  window.dispatchEvent(new Event('resize'));
 });
