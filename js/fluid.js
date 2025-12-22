@@ -1208,9 +1208,7 @@ window.addEventListener("load", () => {
     // const c = document.getElementById('fluid-canvas');
 
     // document.getElementById('debug').innerHTML = `Canvas height: ${c.height}, window height: ${c.height}, window.innerHeight: ${window.innerHeight}, window.outerHeight: ${window.outerHeight}, htmlCanvas height: ${htmlCanv.height / window.devicePixelRatio}`;
-    
-    document.getElementById('debug').innerHTML = 'fix';
-
+    document.getElementById('debug').innerHTML = 'redo fix';
     const scaleFactor = (window.outerHeight + window.innerHeight) / window.outerHeight;
 
     tempCtx.drawImage(
@@ -1218,7 +1216,7 @@ window.addEventListener("load", () => {
       0, window.scrollY * window.devicePixelRatio,
       htmlCanv.width,htmlCanv.height,
       0, 0, 
-      htmlCanv.width,htmlCanv.height / window.devicePixelRatio 
+      htmlCanv.width,htmlCanv.height * scaleFactor 
     );
     fluidConfig.PAUSED = true;
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tempCanvas);
