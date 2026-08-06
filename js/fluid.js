@@ -806,6 +806,71 @@ window.addEventListener("load", () => {
   let colorUpdateTimer = 0.0;
   let lastSplat = 0;
   let splatInterval = Math.random() * 1000 + 500;
+
+  // The boat's on-screen box moves with the viewport width and the font
+  // metrics, so aim the stream at the element itself instead of hardcoding a
+  // point that only lines up at one window size.
+  const BOAT_WATERLINE = 0.9; // fraction down the ascii block where the hull sits
+  const BOAT_STANDOFF = 0.02; // texcoords past the bow, so the jet clears the hull
+  let streamPoint = null;
+
+  function updateStreamPoint() {
+    const boat = document.querySelector(".disclaimer .ascii-art");
+    const rect = boat && boat.getBoundingClientRect();
+    // A zero-sized box means the disclaimer is hidden by the 800px breakpoint.
+    if (!rect || rect.width === 0 || rect.height === 0) {
+      streamPoint = null;
+      return;
+    }
+    // The bow is the right edge, so emit off it: the leftward jet then runs
+    // into the boat head-on rather than trailing away behind it.
+    streamPoint = {
+      x: rect.right / canvas.clientWidth + BOAT_STANDOFF,
+      y: 1.0 - (rect.top + rect.height * BOAT_WATERLINE) / canvas.clientHeight,
+    };
+  }
+
+  // Links puff a little dye the first time the pointer enters them.
+  const LINK_SPLAT_FORCE = 220;
+  let hoveredLink = null;
+
+  // A link that wraps spans one box per line, and their union's centre can land
+  // in the whitespace between them. Puff from the line the pointer is actually
+  // on instead.
+  function hoveredRect(link, x, y) {
+    const rects = link.getClientRects();
+    for (const rect of rects) {
+      if (
+        x >= rect.left &&
+        x <= rect.right &&
+        y >= rect.top &&
+        y <= rect.bottom
+      )
+        return rect;
+    }
+    return rects[0];
+  }
+
+  function linkSplat(event) {
+    const link = event.target.closest ? event.target.closest("a") : null;
+    // mouseover refires for every child, so only act on an actual change.
+    if (link === hoveredLink) return;
+    hoveredLink = link;
+    if (!link) return;
+    const rect = hoveredRect(link, event.clientX, event.clientY);
+    if (!rect || rect.width === 0 || rect.height === 0) return;
+    const rad = fluidConfig.SPLAT_RADIUS;
+    fluidConfig.SPLAT_RADIUS = 0.1;
+    splat(
+      (rect.left + rect.width / 2) / canvas.clientWidth,
+      1.0 - (rect.top + rect.height / 2) / canvas.clientHeight,
+      (Math.random() - 0.5) * LINK_SPLAT_FORCE,
+      LINK_SPLAT_FORCE,
+      generateColor(6)
+    );
+    fluidConfig.SPLAT_RADIUS = rad;
+  }
+
   function fluidUpdate(currentTime = 0) {
     const dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
@@ -814,8 +879,8 @@ window.addEventListener("load", () => {
     let rad = fluidConfig.SPLAT_RADIUS;
     fluidConfig.SPLAT_RADIUS = 0.075;
 
-    if (window.innerWidth > 800) {
-      splat(0.9, .7, -10, 0, {
+    if (streamPoint) {
+      splat(streamPoint.x, streamPoint.y, -10, 0, {
         r: 0,
         g: 0.03 + 0.01 * Math.sin(0.00684 * currentTime * 0),
         b: 0.05 + 0.03 * Math.sin(0.005 * currentTime),
@@ -1222,6 +1287,7 @@ window.addEventListener("load", () => {
 
   function capturePage() {
     resizeAsciiArt();
+    updateStreamPoint();
     html2canvas(document.body, {
       scrollY: 0,
       height: window.outerHeight + window.innerHeight,
@@ -1253,12 +1319,19 @@ window.addEventListener("load", () => {
       fluidConfig.PAUSED = false;
     });
   }
-  window.addEventListener("scroll", updateHTMLTexture);
+  window.addEventListener("scroll", () => {
+    updateHTMLTexture();
+    updateStreamPoint();
+  });
+  document.addEventListener("mouseover", linkSplat);
   window.addEventListener("resize", capturePage);
 
   updateSim = capturePage;
   resizeAsciiArt();
+  updateStreamPoint();
   capturePage();
+  // 26ch is only its final width once the webfont lands, which shifts the boat.
+  if (document.fonts) document.fonts.ready.then(updateStreamPoint);
   
   window.dispatchEvent(new Event('resize'));
 });
