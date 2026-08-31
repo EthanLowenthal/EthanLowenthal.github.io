@@ -9,7 +9,9 @@ body {
 }
 #root {
   z-index: 100;
-  overflow: hidden;
+  /* clip, not hidden: `hidden` would make #root the scroll container for the
+     sticky boat, which never scrolls, so the boat would never stick. */
+  overflow: clip;
   position: absolute;
   /* pointer-events: none; */
   font-size: 15px;
@@ -131,6 +133,11 @@ a {
   width: 26ch;
   margin-top: 42px;
   margin-right: 5%;
+  /* Stick in the right-hand column as the page scrolls. align-self keeps the
+     box its content's height; a stretched flex item has no room to slide in. */
+  position: sticky;
+  top: 42px;
+  align-self: flex-start;
 }
 
 .ascii-art {
