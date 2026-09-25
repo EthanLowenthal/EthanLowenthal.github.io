@@ -1,15 +1,5 @@
 
 "use strict";
-let refreshId;
-let updateSim;
-function queueRedraw() {
-  clearTimeout(refreshId);
-  refreshId = setTimeout(updateSim, 500);
-}
-let htmlTexture;
-let htmlCanv;
-let initFluid;
-let startSim;
 let fluidConfig = {
   SIM_RESOLUTION: 256,
   DYE_RESOLUTION: 512,
@@ -42,8 +32,44 @@ function pointerPrototype() {
 let pointers = [];
 let splatStack = [];
 pointers.push(new pointerPrototype());
-window.addEventListener("load", () => {  
+// The fluid is decoration: the page is plain HTML underneath. If the browser
+// can't run it, or it breaks later, hide the canvas and leave the text.
+let fluidDisabled = false;
+
+function disableFluid(canvas, reason) {
+  if (fluidDisabled) return;
+  fluidDisabled = true;
+  canvas.style.display = "none";
+  console.warn("Fluid background disabled:", reason);
+}
+
+window.addEventListener("load", () => {
   const canvas = document.getElementById("fluid-canvas");
+  try {
+    startFluid(canvas);
+  } catch (err) {
+    disableFluid(canvas, err);
+  }
+});
+
+function startFluid(canvas) {
+  // Wraps anything that runs after setup (frames, timers, observers) so a
+  // failure there also falls back to the plain page instead of freezing it.
+  const guard =
+    (fn) =>
+    (...args) => {
+      if (fluidDisabled) return;
+      try {
+        fn(...args);
+      } catch (err) {
+        disableFluid(canvas, err);
+      }
+    };
+  canvas.addEventListener("webglcontextlost", (e) => {
+    e.preventDefault();
+    disableFluid(canvas, "WebGL context lost");
+  });
+
   resizeCanvas();
   const { gl, ext } = getWebGLContext(canvas);
   if (isMobile()) {
@@ -68,6 +94,7 @@ window.addEventListener("load", () => {
       gl =
         canvas.getContext("webgl", params) ||
         canvas.getContext("experimental-webgl", params);
+    if (!gl) throw new Error("WebGL unavailable");
     let halfFloat;
     let supportLinearFiltering;
     if (isWebGL2) {
@@ -77,6 +104,9 @@ window.addEventListener("load", () => {
       halfFloat = gl.getExtension("OES_texture_half_float");
       supportLinearFiltering = gl.getExtension("OES_texture_half_float_linear");
     }
+
+    if (!isWebGL2 && !halfFloat)
+      throw new Error("Half-float textures unsupported");
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -101,6 +131,9 @@ window.addEventListener("load", () => {
       formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
       formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
     }
+
+    if (!formatRGBA || !formatRG || !formatR)
+      throw new Error("No renderable half-float texture format");
 
     return {
       gl,
@@ -223,7 +256,7 @@ window.addEventListener("load", () => {
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS))
-      console.trace(gl.getProgramInfoLog(program));
+      throw new Error("Shader link failed: " + gl.getProgramInfoLog(program));
 
     return program;
   }
@@ -246,7 +279,7 @@ window.addEventListener("load", () => {
     gl.compileShader(shader);
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-      console.trace(gl.getShaderInfoLog(shader));
+      throw new Error("Shader compile failed: " + gl.getShaderInfoLog(shader));
 
     return shader;
   }
@@ -499,6 +532,14 @@ window.addEventListener("load", () => {
     uniform sampler2D uPressure;
     uniform sampler2D uDivergence;
     uniform sampler2D uText;
+    uniform highp float uScroll;
+    uniform highp float uViewFrac;
+
+    // The text mask spans the whole document, top row first; look up the
+    // slice that is scrolled into view.
+    highp vec2 textUv (highp vec2 uv) {
+        return vec2(uv.x, uScroll + (1.0 - uv.y) * uViewFrac);
+    }
 
     void main () {
         float L = texture2D(uPressure, vL).x;
@@ -509,7 +550,7 @@ window.addEventListener("load", () => {
         float divergence = texture2D(uDivergence, vUv).x;
         float pressure = (L + R + B + T - divergence) * 0.25;
 
-        vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
+        vec3 t = texture2D(uText, textUv(vUv)).xyz;
 
         if (t.x + t.y + t.z > 1.) {
              pressure = basePressure;
@@ -533,6 +574,14 @@ window.addEventListener("load", () => {
     uniform sampler2D uPressure;
     uniform sampler2D uVelocity;
     uniform sampler2D uText;
+    uniform highp float uScroll;
+    uniform highp float uViewFrac;
+
+    // The text mask spans the whole document, top row first; look up the
+    // slice that is scrolled into view.
+    highp vec2 textUv (highp vec2 uv) {
+        return vec2(uv.x, uScroll + (1.0 - uv.y) * uViewFrac);
+    }
 
     void main () {
         float L = texture2D(uPressure, vL).x;
@@ -541,7 +590,7 @@ window.addEventListener("load", () => {
         float B = texture2D(uPressure, vB).x;
         vec2 velocity = texture2D(uVelocity, vUv).xy;
         velocity.xy -= vec2(R - L, T - B);
-        vec3 t = texture2D(uText, vec2(vUv.x,1.-vUv.y)).xyz;
+        vec3 t = texture2D(uText, textUv(vUv)).xyz;
 
         if (t.x + t.y + t.z > 1.) {
              velocity = vec2(0.);
@@ -594,6 +643,9 @@ window.addEventListener("load", () => {
   let velocity;
   let divergence;
   let pressure;
+  let htmlTexture;
+  // Document height the text mask covers, in CSS px; 0 until the first build.
+  let maskHeight = 0;
 
   const copyProgram = new Program(baseVertexShader, copyShader);
   const clearProgram = new Program(baseVertexShader, clearShader);
@@ -671,24 +723,45 @@ window.addEventListener("load", () => {
         filtering
       );
 
-    divergence = createFBO(
-      simRes.width,
-      simRes.height,
-      r.internalFormat,
-      r.format,
-      texType,
-      gl.NEAREST
-    );
-    pressure = createDoubleFBO(
-      simRes.width,
-      simRes.height,
-      r.internalFormat,
-      r.format,
-      texType,
-      gl.NEAREST
+    // Both are rebuilt from scratch every step, so there is nothing to carry
+    // over on a resize; just replace them, freeing the old ones.
+    if (!sameSize(divergence, simRes)) {
+      if (divergence) deleteFBO(divergence);
+      divergence = createFBO(
+        simRes.width,
+        simRes.height,
+        r.internalFormat,
+        r.format,
+        texType,
+        gl.NEAREST
+      );
+    }
+    if (!sameSize(pressure, simRes)) {
+      if (pressure) {
+        deleteFBO(pressure.read);
+        deleteFBO(pressure.write);
+      }
+      pressure = createDoubleFBO(
+        simRes.width,
+        simRes.height,
+        r.internalFormat,
+        r.format,
+        texType,
+        gl.NEAREST
+      );
+    }
+  }
+
+  function sameSize(target, res) {
+    return (
+      target != null && target.width == res.width && target.height == res.height
     );
   }
-  initFluid = initFramebuffers;
+
+  function deleteFBO(target) {
+    gl.deleteFramebuffer(target.fbo);
+    gl.deleteTexture(target.texture);
+  }
   function createFBO(w, h, internalFormat, format, type, param) {
     gl.activeTexture(gl.TEXTURE0);
     let texture = gl.createTexture();
@@ -773,6 +846,7 @@ window.addEventListener("load", () => {
     copyProgram.bind();
     gl.uniform1i(copyProgram.uniforms.uTexture, target.attach(0));
     blit(newFBO);
+    deleteFBO(target);
     return newFBO;
   }
 
@@ -787,6 +861,7 @@ window.addEventListener("load", () => {
       type,
       param
     );
+    deleteFBO(target.write);
     target.write = createFBO(w, h, internalFormat, format, type, param);
     target.width = w;
     target.height = h;
@@ -871,7 +946,7 @@ window.addEventListener("load", () => {
     fluidConfig.SPLAT_RADIUS = rad;
   }
 
-  function fluidUpdate(currentTime = 0) {
+  const fluidUpdate = guard((currentTime = 0) => {
     const dt = calcDeltaTime();
     if (resizeCanvas()) initFramebuffers();
     updateColors(dt);
@@ -896,8 +971,7 @@ window.addEventListener("load", () => {
     if (!fluidConfig.PAUSED) step(dt);
     render(null);
     requestAnimationFrame(fluidUpdate);
-  }
-  startSim = fluidUpdate;
+  });
   function calcDeltaTime() {
     let now = Date.now();
     let dt = (now - lastUpdateTime) / 1000;
@@ -965,6 +1039,7 @@ window.addEventListener("load", () => {
     gl.uniform1f(pressureProgram.uniforms.basePressure, fluidConfig.PRESSURE);
     gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
     gl.uniform1i(pressureProgram.uniforms.uText, htmlTexture.attach(2));
+    setMaskScroll(pressureProgram);
 
     for (let i = 0; i < fluidConfig.PRESSURE_ITERATIONS; i++) {
       gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1));
@@ -987,6 +1062,7 @@ window.addEventListener("load", () => {
       velocity.read.attach(1)
     );
     gl.uniform1i(gradienSubtractProgram.uniforms.uText, htmlTexture.attach(2));
+    setMaskScroll(gradienSubtractProgram);
     blit(velocity.write);
     velocity.swap();
 
@@ -1027,6 +1103,14 @@ window.addEventListener("load", () => {
     );
     blit(dye.write);
     dye.swap();
+  }
+
+  function setMaskScroll(program) {
+    // Before the first mask the texture is empty, so any window onto it works.
+    const scroll = maskHeight ? window.scrollY / maskHeight : 0;
+    const view = maskHeight ? canvas.clientHeight / maskHeight : 1;
+    gl.uniform1f(program.uniforms.uScroll, scroll);
+    gl.uniform1f(program.uniforms.uViewFrac, view);
   }
 
   function render(target) {
@@ -1119,7 +1203,7 @@ window.addEventListener("load", () => {
     let posY = scaleByPixelRatio(e.offsetY);
     let pointer = pointers.find((p) => p.id == -1);
     if (pointer == null) pointer = new pointerPrototype();
-    updatePointerDownData(pointer, -1, e.offsetX, e.offsetY);
+    updatePointerDownData(pointer, -1, posX, posY);
   });
 
   canvas.addEventListener("mousemove", (e) => {
@@ -1259,79 +1343,56 @@ window.addEventListener("load", () => {
     }
     return hash;
   }
-  window.addEventListener("resize", () => {
-    queueRedraw();
-  });
+  const root = document.getElementById("root");
+  const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
 
-  const updateHTMLTexture = () => {
-    if (!htmlCanv) return;
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
-
-    const fluidCanvas = document.getElementById('fluid-canvas');
-    tempCanvas.width = fluidCanvas.width;
-    tempCanvas.height = fluidCanvas.height;
-
-    tempCtx.drawImage(
-      htmlCanv, 
-      0, window.scrollY * window.devicePixelRatio,
-      tempCanvas.width, tempCanvas.height,
-      0, 0, 
-      tempCanvas.width, tempCanvas.height
+  const updateTextMask = guard(() => {
+    const mask = buildTextMask(root, canvas.clientWidth, maxTextureSize);
+    htmlTexture.attach(0);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      mask.canvas
     );
-    fluidConfig.PAUSED = true;
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tempCanvas);
-    fluidConfig.PAUSED = false;
-    
-  }
-
-  function capturePage() {
-    resizeAsciiArt();
-    updateStreamPoint();
-    html2canvas(document.body, {
-      scrollY: 0,
-      height: window.outerHeight + window.innerHeight,
-      windowHeight: window.outerHeight + window.innerHeight
-    }).then(function (canv) {
-      const root = document.getElementById('root');
-      fluidConfig.PAUSED = true;
-      htmlTexture.attach(0);
-      htmlCanv = canv;
-
-      // Create a blurred version of htmlCanv
-      const blurredCanvas = document.createElement('canvas');
-      const blurredCtx = blurredCanvas.getContext('2d');
-      blurredCanvas.width = htmlCanv.width;
-      blurredCanvas.height = htmlCanv.height;
-
-      blurredCtx.globalAlpha = 0.5;
-      const blurAmount = 2;
-      blurredCtx.globalCompositeOperation = 'lighten';
-      for (let x = -blurAmount; x <= blurAmount; x++) {
-        for (let y = -blurAmount; y <= blurAmount; y++) {
-          blurredCtx.drawImage(htmlCanv, x, y);
-        }
-      }
-      blurredCtx.globalAlpha = 1.0;
-      htmlCanv = blurredCanvas;
-
-      updateHTMLTexture();
-      fluidConfig.PAUSED = false;
-    });
-  }
-  window.addEventListener("scroll", () => {
-    updateHTMLTexture();
-    updateStreamPoint();
+    // The sim samples this far more coarsely than it was drawn.
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    maskHeight = mask.height;
   });
-  document.addEventListener("mouseover", linkSplat);
-  window.addEventListener("resize", capturePage);
 
-  updateSim = capturePage;
-  resizeAsciiArt();
-  updateStreamPoint();
-  capturePage();
-  // 26ch is only its final width once the webfont lands, which shifts the boat.
-  if (document.fonts) document.fonts.ready.then(updateStreamPoint);
-  
-  window.dispatchEvent(new Event('resize'));
-});
+  // Rebuilding walks every character on the page, so wait for a resize drag
+  // to settle. The boat moves live, though, so keep the stream on it.
+  const MASK_DEBOUNCE_MS = 150;
+  let maskTimer;
+  function scheduleTextMask(delay = MASK_DEBOUNCE_MS) {
+    clearTimeout(maskTimer);
+    maskTimer = setTimeout(updateTextMask, delay);
+  }
+
+  // #root catches reflow (wrapping, the webfont landing); the canvas catches
+  // viewport changes that leave #root's box alone. Observing fires once
+  // straight away, which builds the first mask.
+  const layoutObserver = new ResizeObserver(
+    guard(() => {
+      updateStreamPoint();
+      scheduleTextMask();
+    })
+  );
+  layoutObserver.observe(root);
+  layoutObserver.observe(canvas);
+
+  window.addEventListener("scroll", guard(updateStreamPoint));
+  document.addEventListener("mouseover", guard(linkSplat));
+  // Glyph shapes and the boat's 26ch width both change when the webfont lands.
+  document.fonts.ready.then(
+    guard(() => {
+      updateStreamPoint();
+      scheduleTextMask(0);
+    })
+  );
+
+  requestAnimationFrame(fluidUpdate);
+}

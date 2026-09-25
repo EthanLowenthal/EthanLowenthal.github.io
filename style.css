@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  /* Variable font: one file covers the whole weight axis, so <strong> gets a
+     real bold. `block` keeps the ASCII art from flashing in a fallback font. */
+  font-weight: 200 900;
+  font-display: block;
+  src: local("Source Code Pro"), url("/SourceCodePro.woff2") format("woff2");
+}
+
 html,
 body {
   margin: 0;
@@ -7,22 +17,21 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
 #root {
   z-index: 100;
   /* clip, not hidden: `hidden` would make #root the scroll container for the
      sticky boat, which never scrolls, so the boat would never stick. */
   overflow: clip;
-  position: absolute;
-  /* pointer-events: none; */
+  position: relative;
+  margin: 3em 9ch;
+  font-family: "Source Code Pro", monospace;
   font-size: 15px;
+  font-style: normal;
+  line-height: 1.6;
   color: rgb(215, 227, 228);
 }
-#root font > span {
-  float: left;
-}
-#root font {
-  display: table-caption;
-}
+
 #background {
   background: rgb(20, 20, 20);
   width: 100vw;
@@ -32,73 +41,7 @@ body {
   left: 0;
   top: 0;
 }
-.selected::before {
-  content: "-";
-}
-.underlined {
-  text-decoration: underline;
-}
-pre {
-  display: inline;
-  margin: 0;
-  white-space: pre-wrap;
-}
 
-.text-container {
-  padding-left: 2em;
-}
-
-.image-container {
-  position: absolute;
-  bottom: calc(70vh - 4ch);
-  left: calc(90vw - 39ch);
-}
-
-.border {
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
-}
-
-.row {
-  margin-top: 3em;
-  height: 100%;
-  width: 100%;
-}
-
-.column {
-  height: 100vh;
-}
-
-.column-text {
-  overflow: auto;
-  width: 40%;
-  font-family: monospace;
-}
-.sim-res {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-.sim-res a {
-  float: right !important;
-}
-a {
-  /* pointer-events: all; */
-  color: rgb(218, 224, 227);
-}
-
-@media screen and (max-width: 800px) {
-  .disclaimer {
-    display: none;
-  }
-  .page {
-    max-width: unset;
-  }
-  #root {
-    margin: 1em 3ch !important;
-  }
-}
 #fluid-canvas {
   position: fixed;
   left: 0;
@@ -107,30 +50,42 @@ a {
   height: 100vh;
 }
 
-#root {
-  margin: 3em 9ch;
-  font-family: "Source Code Pro", monospace;
-  line-height: 1.6;
-  font-style: normal;
-  position: relative;
-}
-
-.page {
-  max-width: 110ch;
-}
-
 a {
   color: rgb(170 209 228);
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.page {
+  /* The ASCII headers size themselves against this box's width (cqi below).
+     Inline-size containment stops the page from sizing to its content, so the
+     width has to come from flex-basis instead. */
+  container-type: inline-size;
+  flex: 0 1 110ch;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
 .disclaimer {
   width: 26ch;
+  /* When space runs short, squeeze the boat's column down to the boat before
+     taking any width from the page. */
+  flex-shrink: 100;
   margin-top: 42px;
   margin-right: 5%;
   /* Stick in the right-hand column as the page scrolls. align-self keeps the
@@ -145,21 +100,27 @@ a {
   font-size: 12px;
   line-height: 1;
   white-space: pre;
-  letter-spacing: -1px;
+  letter-spacing: -0.08em;
 }
 
-.page {
-  overflow-x: scroll;
+/* Shrink the headers to fit the page, all at the same size. Each character
+   advances 0.6em (Source Code Pro) plus the letter-spacing, and the widest
+   header is 79 columns; 80 leaves a column of slack for rounding. */
+.page .ascii-art {
+  --cols: 80;
+  --advance: 0.52;
+  font-size: min(12px, 100cqi / (var(--cols) * var(--advance)));
 }
 
 ul > li:not(:first-child) {
   margin-top: 1em;
 }
 
-@font-face {
-  font-family: 'Source Code Pro';
-  font-style: normal;
-  font-weight: normal;
-  src: local('Source Code Pro'), url('SourceCodePro-VariableFont_wght.ttf') format('ttf');
+@media screen and (max-width: 800px) {
+  .disclaimer {
+    display: none;
+  }
+  #root {
+    margin: 1em 3ch;
+  }
 }
-
