@@ -35,40 +35,61 @@ pointers.push(new pointerPrototype());
 // The fluid is decoration: the page is plain HTML underneath. If the browser
 // can't run it, or it breaks later, hide the canvas and leave the text.
 let fluidDisabled = false;
+// Aborting this tears down the running sim's frame loop, listeners and timers.
+let fluidRun = null;
+
+function stopFluid(canvas) {
+  if (fluidRun) fluidRun.abort();
+  fluidRun = null;
+  canvas.style.display = "none";
+}
 
 function disableFluid(canvas, reason) {
   if (fluidDisabled) return;
   fluidDisabled = true;
-  canvas.style.display = "none";
+  stopFluid(canvas);
   console.warn("Fluid background disabled:", reason);
+}
+
+function tryStartFluid(canvas) {
+  fluidRun = new AbortController();
+  try {
+    startFluid(canvas, fluidRun.signal);
+    canvas.style.display = "";
+  } catch (err) {
+    disableFluid(canvas, err);
+  }
 }
 
 window.addEventListener("load", () => {
   const canvas = document.getElementById("fluid-canvas");
-  try {
-    startFluid(canvas);
-  } catch (err) {
-    disableFluid(canvas, err);
-  }
+  // Sleep/wake, a backgrounded mobile tab or a GPU reset can take the context
+  // away. preventDefault asks the browser to hand it back; when it does, every
+  // GPU resource is gone, so start the sim over from scratch.
+  canvas.addEventListener("webglcontextlost", (e) => {
+    e.preventDefault();
+    stopFluid(canvas);
+  });
+  canvas.addEventListener("webglcontextrestored", () => {
+    if (!fluidDisabled) tryStartFluid(canvas);
+  });
+  tryStartFluid(canvas);
 });
 
-function startFluid(canvas) {
+function startFluid(canvas, signal) {
   // Wraps anything that runs after setup (frames, timers, observers) so a
-  // failure there also falls back to the plain page instead of freezing it.
+  // failure there also falls back to the plain page instead of freezing it,
+  // and so callbacks from a run that has been stopped do nothing.
   const guard =
     (fn) =>
     (...args) => {
-      if (fluidDisabled) return;
+      if (signal.aborted) return;
       try {
         fn(...args);
       } catch (err) {
         disableFluid(canvas, err);
       }
     };
-  canvas.addEventListener("webglcontextlost", (e) => {
-    e.preventDefault();
-    disableFluid(canvas, "WebGL context lost");
-  });
 
   resizeCanvas();
   const { gl, ext } = getWebGLContext(canvas);
@@ -1198,25 +1219,25 @@ function startFluid(canvas) {
     return radius;
   }
 
-  canvas.addEventListener("mousedown", (e) => {
+  canvas.addEventListener("mousedown", guard((e) => {
     let posX = scaleByPixelRatio(e.offsetX);
     let posY = scaleByPixelRatio(e.offsetY);
     let pointer = pointers.find((p) => p.id == -1);
     if (pointer == null) pointer = new pointerPrototype();
     updatePointerDownData(pointer, -1, posX, posY);
-  });
+  }), { signal });
 
-  canvas.addEventListener("mousemove", (e) => {
+  canvas.addEventListener("mousemove", guard((e) => {
     let pointer = pointers[0];
     if (!pointer.down) return;
     let posX = scaleByPixelRatio(e.offsetX);
     let posY = scaleByPixelRatio(e.offsetY);
     updatePointerMoveData(pointer, posX, posY);
-  });
+  }), { signal });
 
   window.addEventListener("mouseup", () => {
     updatePointerUpData(pointers[0]);
-  });
+  }, { signal });
 
   function updatePointerDownData(pointer, id, posX, posY) {
     pointer.id = id;
@@ -1383,9 +1404,13 @@ function startFluid(canvas) {
   );
   layoutObserver.observe(root);
   layoutObserver.observe(canvas);
+  signal.addEventListener("abort", () => {
+    layoutObserver.disconnect();
+    clearTimeout(maskTimer);
+  });
 
-  window.addEventListener("scroll", guard(updateStreamPoint));
-  document.addEventListener("mouseover", guard(linkSplat));
+  window.addEventListener("scroll", guard(updateStreamPoint), { signal });
+  document.addEventListener("mouseover", guard(linkSplat), { signal });
   // Glyph shapes and the boat's 26ch width both change when the webfont lands.
   document.fonts.ready.then(
     guard(() => {
