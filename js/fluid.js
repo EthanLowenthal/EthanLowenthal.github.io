@@ -555,11 +555,21 @@ function startFluid(canvas, signal) {
     uniform sampler2D uText;
     uniform highp float uScroll;
     uniform highp float uViewFrac;
+    uniform sampler2D uBoat;
+    // left, top, right, bottom of the boat mask, as fractions of the viewport
+    // measured from its top left.
+    uniform highp vec4 uBoatRect;
 
     // The text mask spans the whole document, top row first; look up the
-    // slice that is scrolled into view.
-    highp vec2 textUv (highp vec2 uv) {
-        return vec2(uv.x, uScroll + (1.0 - uv.y) * uViewFrac);
+    // slice that is scrolled into view. The sticky boat isn't in it, since it
+    // doesn't scroll with the document; its own mask follows it on screen.
+    vec3 textMask (highp vec2 uv) {
+        highp vec2 p = vec2(uv.x, 1.0 - uv.y);
+        vec3 t = texture2D(uText, vec2(p.x, uScroll + p.y * uViewFrac)).xyz;
+        highp vec2 b = (p - uBoatRect.xy) / (uBoatRect.zw - uBoatRect.xy);
+        if (all(greaterThanEqual(b, vec2(0.))) && all(lessThanEqual(b, vec2(1.))))
+            t += texture2D(uBoat, b).xyz;
+        return t;
     }
 
     void main () {
@@ -571,7 +581,7 @@ function startFluid(canvas, signal) {
         float divergence = texture2D(uDivergence, vUv).x;
         float pressure = (L + R + B + T - divergence) * 0.25;
 
-        vec3 t = texture2D(uText, textUv(vUv)).xyz;
+        vec3 t = textMask(vUv);
 
         if (t.x + t.y + t.z > 1.) {
              pressure = basePressure;
@@ -597,11 +607,21 @@ function startFluid(canvas, signal) {
     uniform sampler2D uText;
     uniform highp float uScroll;
     uniform highp float uViewFrac;
+    uniform sampler2D uBoat;
+    // left, top, right, bottom of the boat mask, as fractions of the viewport
+    // measured from its top left.
+    uniform highp vec4 uBoatRect;
 
     // The text mask spans the whole document, top row first; look up the
-    // slice that is scrolled into view.
-    highp vec2 textUv (highp vec2 uv) {
-        return vec2(uv.x, uScroll + (1.0 - uv.y) * uViewFrac);
+    // slice that is scrolled into view. The sticky boat isn't in it, since it
+    // doesn't scroll with the document; its own mask follows it on screen.
+    vec3 textMask (highp vec2 uv) {
+        highp vec2 p = vec2(uv.x, 1.0 - uv.y);
+        vec3 t = texture2D(uText, vec2(p.x, uScroll + p.y * uViewFrac)).xyz;
+        highp vec2 b = (p - uBoatRect.xy) / (uBoatRect.zw - uBoatRect.xy);
+        if (all(greaterThanEqual(b, vec2(0.))) && all(lessThanEqual(b, vec2(1.))))
+            t += texture2D(uBoat, b).xyz;
+        return t;
     }
 
     void main () {
@@ -611,7 +631,7 @@ function startFluid(canvas, signal) {
         float B = texture2D(uPressure, vB).x;
         vec2 velocity = texture2D(uVelocity, vUv).xy;
         velocity.xy -= vec2(R - L, T - B);
-        vec3 t = texture2D(uText, textUv(vUv)).xyz;
+        vec3 t = textMask(vUv);
 
         if (t.x + t.y + t.z > 1.) {
              velocity = vec2(0.);
@@ -665,6 +685,7 @@ function startFluid(canvas, signal) {
   let divergence;
   let pressure;
   let htmlTexture;
+  let boatTexture;
   // Document height the text mask covers, in CSS px; 0 until the first build.
   let maskHeight = 0;
 
@@ -699,6 +720,15 @@ function startFluid(canvas, signal) {
       htmlTexture = createFBO(
         simRes.width,
         simRes.height,
+        r.internalFormat,
+        r.format,
+        texType,
+        gl.NEAREST
+      );
+    if (boatTexture == null)
+      boatTexture = createFBO(
+        1,
+        1,
         r.internalFormat,
         r.format,
         texType,
@@ -908,16 +938,24 @@ function startFluid(canvas, signal) {
   // point that only lines up at one window size.
   const BOAT_WATERLINE = 0.9; // fraction down the ascii block where the hull sits
   const BOAT_STANDOFF = 0.02; // texcoords past the bow, so the jet clears the hull
+  const boat = document.querySelector(".disclaimer .ascii-art");
   let streamPoint = null;
+  // The boat's viewport box, which the sticky column keeps changing as the
+  // page scrolls; null while it's hidden.
+  let boatRect = null;
+  // Size and padding of the boat's mask in CSS px; null until built or while
+  // the boat is hidden.
+  let boatMaskInfo = null;
 
   function updateStreamPoint() {
-    const boat = document.querySelector(".disclaimer .ascii-art");
     const rect = boat && boat.getBoundingClientRect();
     // A zero-sized box means the disclaimer is hidden by the 800px breakpoint.
     if (!rect || rect.width === 0 || rect.height === 0) {
       streamPoint = null;
+      boatRect = null;
       return;
     }
+    boatRect = rect;
     // The bow is the right edge, so emit off it: the leftward jet then runs
     // into the boat head-on rather than trailing away behind it.
     streamPoint = {
@@ -1060,6 +1098,7 @@ function startFluid(canvas, signal) {
     gl.uniform1f(pressureProgram.uniforms.basePressure, fluidConfig.PRESSURE);
     gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0));
     gl.uniform1i(pressureProgram.uniforms.uText, htmlTexture.attach(2));
+    gl.uniform1i(pressureProgram.uniforms.uBoat, boatTexture.attach(3));
     setMaskScroll(pressureProgram);
 
     for (let i = 0; i < fluidConfig.PRESSURE_ITERATIONS; i++) {
@@ -1083,6 +1122,7 @@ function startFluid(canvas, signal) {
       velocity.read.attach(1)
     );
     gl.uniform1i(gradienSubtractProgram.uniforms.uText, htmlTexture.attach(2));
+    gl.uniform1i(gradienSubtractProgram.uniforms.uBoat, boatTexture.attach(3));
     setMaskScroll(gradienSubtractProgram);
     blit(velocity.write);
     velocity.swap();
@@ -1132,6 +1172,20 @@ function startFluid(canvas, signal) {
     const view = maskHeight ? canvas.clientHeight / maskHeight : 1;
     gl.uniform1f(program.uniforms.uScroll, scroll);
     gl.uniform1f(program.uniforms.uViewFrac, view);
+    // Off screen while the boat is hidden or has no mask yet.
+    if (boatRect && boatMaskInfo) {
+      const left = (boatRect.left - boatMaskInfo.pad) / canvas.clientWidth;
+      const top = (boatRect.top - boatMaskInfo.pad) / canvas.clientHeight;
+      gl.uniform4f(
+        program.uniforms.uBoatRect,
+        left,
+        top,
+        left + boatMaskInfo.width / canvas.clientWidth,
+        top + boatMaskInfo.height / canvas.clientHeight
+      );
+    } else {
+      gl.uniform4f(program.uniforms.uBoatRect, 2, 2, 3, 3);
+    }
   }
 
   function render(target) {
@@ -1368,7 +1422,7 @@ function startFluid(canvas, signal) {
   const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
 
   const updateTextMask = guard(() => {
-    const mask = buildTextMask(root, canvas.clientWidth, maxTextureSize);
+    const mask = buildTextMask(root, canvas.clientWidth, maxTextureSize, boat);
     htmlTexture.attach(0);
     gl.texImage2D(
       gl.TEXTURE_2D,
@@ -1382,6 +1436,26 @@ function startFluid(canvas, signal) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     maskHeight = mask.height;
+
+    const boatMask = boat && buildElementMask(boat);
+    boatMaskInfo = boatMask && {
+      pad: boatMask.pad,
+      width: boatMask.canvas.width,
+      height: boatMask.canvas.height,
+    };
+    if (boatMask) {
+      boatTexture.attach(0);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        boatMask.canvas
+      );
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    }
   });
 
   // Rebuilding walks every character on the page, so wait for a resize drag
