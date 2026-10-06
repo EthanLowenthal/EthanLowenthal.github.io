@@ -12,7 +12,7 @@
       var qs = params.toString();
       history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
     }
-    if (localStorage.getItem('notrack')) return;
+    if (localStorage.getItem('notrack')) return showOptedOut();
   } catch (e) {}
   if (/^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname)) return;
 
@@ -35,4 +35,19 @@
   gtag('config', id, {
     page_location: location.origin + location.pathname + (tags ? '?' + tags : ''),
   });
+
+  // A faint dot in the bottom-left corner, so an opted-out browser can tell
+  // at a glance. Hover it for the reason.
+  function showOptedOut() {
+    console.info('Analytics off on this browser (?notrack=0 to turn back on)');
+    function add() {
+      var dot = document.createElement('div');
+      dot.title = 'Analytics off on this browser';
+      dot.style.cssText = 'position:fixed;left:6px;bottom:6px;width:5px;height:5px;' +
+        'border-radius:50%;background:rgba(128,128,128,.45);z-index:2147483647;';
+      document.body.appendChild(dot);
+    }
+    if (document.body) add();
+    else document.addEventListener('DOMContentLoaded', add);
+  }
 })();
