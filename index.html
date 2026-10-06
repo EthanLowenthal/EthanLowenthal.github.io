@@ -49,14 +49,32 @@
   <link rel="stylesheet" href="/style.css" />
   <script src="/js/mask.js"></script>
   <script src="/js/fluid.js"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CH8JDMBF77"></script>
+  <!-- Google tag (gtag.js). Visit with ?notrack once to opt this browser out, ?notrack=0 to opt back in. -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-CH8JDMBF77');
+    (function () {
+      var id = 'G-CH8JDMBF77';
+      try {
+        var params = new URLSearchParams(location.search);
+        if (params.has('notrack')) {
+          if (params.get('notrack') === '0') localStorage.removeItem('notrack');
+          else localStorage.setItem('notrack', '1');
+          params.delete('notrack');
+          var qs = params.toString();
+          history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+        }
+        if (localStorage.getItem('notrack')) return;
+      } catch (e) {}
+      if (/^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname)) return;
+
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', id);
+    })();
   </script>
 </head>
 
