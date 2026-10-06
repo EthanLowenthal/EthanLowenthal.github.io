@@ -4,26 +4,33 @@
 (function () {
   var id = 'G-CH8JDMBF77';
   var params = new URLSearchParams(location.search);
+  // Decided from the URL first, so ?notrack holds for this load even when
+  // storage is blocked and the choice cannot be remembered.
+  var optOut = null;
+  if (params.has('notrack')) {
+    optOut = !/^(0|false|off|no)$/i.test(params.get('notrack'));
+    params.delete('notrack');
+    var qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  }
   try {
-    if (params.has('notrack')) {
-      if (params.get('notrack') === '0') localStorage.removeItem('notrack');
-      else localStorage.setItem('notrack', '1');
-      params.delete('notrack');
-      var qs = params.toString();
-      history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
-    }
-    if (localStorage.getItem('notrack')) return showOptedOut();
+    if (optOut === true) localStorage.setItem('notrack', '1');
+    else if (optOut === false) localStorage.removeItem('notrack');
+    else optOut = !!localStorage.getItem('notrack');
   } catch (e) {}
+  if (optOut) return showOptedOut();
   if (/^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname)) return;
 
   // Report the path plus campaign tags only. Pages take other query
   // parameters (GDS-Lens's ?src= is a link to someone's layout) that have no
-  // business in Google's logs.
+  // business in Google's logs, and that includes the referrer, which carries
+  // the previous page's full URL when it was one of ours.
   var utm = new URLSearchParams();
   params.forEach(function (value, key) {
     if (key.indexOf('utm_') === 0) utm.append(key, value);
   });
   var tags = utm.toString();
+  var referrer = document.referrer.split(/[?#]/)[0];
 
   var s = document.createElement('script');
   s.async = true;
@@ -34,6 +41,7 @@
   gtag('js', new Date());
   gtag('config', id, {
     page_location: location.origin + location.pathname + (tags ? '?' + tags : ''),
+    page_referrer: referrer,
   });
 
   // A faint dot in the bottom-left corner, so an opted-out browser can tell
